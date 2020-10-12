@@ -1,22 +1,22 @@
 module.exports = {
-  title: 'Hexabase-SDK',
-  tagline: 'Typescript SDK for hexabase API',
+  title: 'Hexabase SDK',
+  tagline: 'Typescript SDK for Hexabase API',
   url: 'https://b-eee.github.io',
-  baseUrl: '/',
-  onBrokenLinks: 'throw',
+  baseUrl: '/hexabase-sdk-docs/',
+  onBrokenLinks: 'ignore',
   favicon: 'img/favicon.ico',
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'b-eee', // Usually your GitHub org/user name.
+  projectName: 'hexabase-sdk-docs', // Usually your repo name.
   themeConfig: {
     navbar: {
-      title: 'My Site',
+      title: 'Hexabase SDK',
       logo: {
         alt: 'My Site Logo',
         src: 'img/logo.svg',
       },
       items: [
         {
-          to: 'docs/',
+          to: 'installation',
           activeBasePath: 'docs',
           label: 'Docs',
           position: 'left',
