@@ -1,6 +1,8 @@
 ---
 title: Hexabase.Users
 ---
+
+
 ### userInfoAsync
 
 get user informations
@@ -13,22 +15,32 @@ get user informations
     public async userInfoAsync(): Promise<UserInfoResp>
 ```
 
-- ### returns 
-```ts
-interface UserInfoResp {
-    u_id: string;
-    username: string;
-    email: string;
-    profile_pic: string;
-    current_workspace_id: string;
-    is_ws_admin: boolean;
-    user_roles: UserRole[];
+> Successful return Schema 
+```json
+{
+  "uid": "string",
+  "username": "string",
+  "email": "string",
+  "profile_pic": "string",
+  "current_workspace_id": "string",
+  "is_ws_admin": true,
+  "user_roles": [
+    {
+      "rid": "string",
+      "role_name": "string",
+      "role_display_id": "string",
+      "pid": "string",
+      "app_display_id": "string",
+      "app_name": "string",
+      "app_display_order": 0
+    }
+  ]
 }
 ```
 
 - ### usage
 ```ts
-    let userInfo = async Hexabase.users().userInfoAsync();
+    let userInfo = await Hexabase.users().userInfoAsync();
 ```
 
 ### getTokenAsync
@@ -40,6 +52,14 @@ get temporary token
      * @returns Promise
      */
     public async getTokenAsync(): Promise<UsersLoginResp>
+```
+
+> Successful return schema
+
+```json
+{
+  "token": "string"
+}
 ```
 
 
