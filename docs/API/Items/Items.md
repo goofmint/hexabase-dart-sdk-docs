@@ -60,3 +60,56 @@ title: Hexabase.Datastores.Items
     var items = new Items();
     let datastoreItemDetails = items.getDatastoreItemDetailsAsync({ project_id: 'newproject', datastore_id: 'newdb1', item_id: '5b0faa3a00f7c300061dee4c' });
 ```
+
+### createItemAsync (Alpha)
+
+```ts
+    /**
+     *  create new datastore item by using new-action
+     * @param  {{datastore_id:string} request
+     * @param  {string} project_id
+     * @param  {boolean} use_display_id?
+     * @param  {boolean} is_notify_to_sender?
+     * @param  {{}} item?
+     * @param  {{}} related_ds_items?
+     * @param  {boolean}} return_item_result?
+     * @param  {any} payload
+     * @returns Promise
+     */
+    public async createItemAsync(request: { 
+            datastore_id: string, 
+            project_id: string, 
+            use_display_id?: boolean, 
+            is_notify_to_sender?: boolean,
+            item?: {}, 
+            related_ds_items?: {}, 
+            return_item_result?: boolean 
+        }, 
+        payload: any): Promise<NewItemActionResp>
+```
+
+- ### usage
+```ts
+    // TODO need more refactor
+    // simplify ws, pj, and dt selectors..
+    let ws = new Workspaces();
+    var currentWs = await ws.getWorkspacesAsync();
+
+    let application = new Applications();
+    var applicationsList = await application.getApplications({ workspace_id: currentWs.workspaces[0].workspace_id });
+
+    if(applicationsList[0] && applicationsList[0].datastores[0])
+    {
+        var item = new Items();
+        
+        let datastoreID = applicationsList[0].datastores[0].datastore_id; // TODO need improvements selecting datastore_id
+
+        // create new item
+        let newItemsResult = await item.createItemAsync({ 
+            datastore_id: datastoreID, 
+            project_id: 'newproject'
+        },
+        { Title: `testing ${Date.now()}` }); // payload using normal ID instead of field_id
+        console.log(newItemsResult)
+    }
+```
