@@ -34,3 +34,11 @@ title: Hexabase.Applications
   }
 ]
 ```
+
+- ### usage (tsx react+redux)
+```ts
+export const fetchProjects = (currentWs: any) => async (dispatch: any) => {
+    let applications = await Hexabase.applications().getApplications({ workspace_id: currentWs.workspace_id }).ResultAsync();
+    dispatch(setProjects(applications));
+}
+```

@@ -27,6 +27,23 @@ title: Hexabase.Datastores.Items
     })
 ```
 
+* ### usage (tsx react+redux)
+```ts
+    export const fetchDatastoreItems = (datastore: any, project_id: string) => async (dispatch: any) => {
+        let items = await Hexabase.items().getItemsAsync({
+            project_id: project_id,
+            datastore_id: datastore.datastore_id,
+            per_page: 1, 
+            page: 1, 
+            use_display_id: true        
+        });
+        var payload = {} as any;
+        payload.cols = Object.keys(items.items[0]).filter(a => !exceptId.includes(a));
+        payload.items = items.items;
+        dispatch(setDatastoreItemsAndCols(payload))
+    }
+```
+
 ### getItemSearchConditionsAsync
 
 ```ts
