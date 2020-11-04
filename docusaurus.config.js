@@ -33,15 +33,15 @@ module.exports = {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
+          title: 'API Docs',
           items: [
             {
-              label: 'Style Guide',
-              to: 'docs/',
+              label: 'Redoc',
+              to: 'https://az-lk.hexabase.com/redoc/index.html?url=/swagger/v1/swagger.json',
             },
             {
-              label: 'Second Doc',
-              to: 'docs/doc2/',
+              label: 'Swagger',
+              to: 'https://az-lk.hexabase.com/swagger/index.html',
             },
           ],
         },
@@ -49,34 +49,26 @@ module.exports = {
           title: 'Community',
           items: [
             {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-            },
-            {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
-            },
-            {
-              label: 'Twitter',
-              href: 'https://twitter.com/docusaurus',
+              label: 'Discourse (Community Site)',
+              href: 'https://community.hexabase.com/',
             },
           ],
         },
         {
-          title: 'More',
+          title: 'Company',
           items: [
             {
               label: 'Blog',
               to: 'blog',
             },
             {
-              label: 'GitHub',
-              href: 'https://github.com/b-eee/hexabase-sdk-docs',
+              label: 'Company',
+              href: 'https://www.hexabase.com/',
             },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Hexabase-SDK. Built with Docusaurus.`,
     },
   },
   presets: [
