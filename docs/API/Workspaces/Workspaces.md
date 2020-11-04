@@ -31,6 +31,22 @@ title: Hexabase.Workspaces
 }
 ```
 
+> Usages in TSX
+
+```jsx
+    import {Hexabase} from 'hexabase-sdk';
+
+
+    const [workspaces, setWorkspaces] = useState([] as Workspaces[]);
+
+    useEffect(() =>
+    {
+        Hexabase.workspaces().getWorkspacesAsync().Result().then(resp => setWorkspaces(resp.workspaces));
+
+        return;
+    }, []);    
+```
+
 ### setCurrentWorkspace
 
 > set user current workspace
