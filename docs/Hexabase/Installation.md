@@ -1,23 +1,22 @@
 ---
-title: installation
-sidebar_label: 'Getting Started'
-slug: /
+title: Installation
+sidebar_label: 'Installation'
 ---
 
 
+
+
 `hexbase-sdk` is essentially npm package, you can install it by `npm`
+
+```bash
+npm i hexabase-sdk
+```
 
 ## Requirements
 
 * [Nodejs](https://nodejs.org/en/) >= 10
 
-
-```
-npm i hexabase-sdk
-```
-
-
-* user credentials
+* user credentials ***must obtain from hexabase***
 
 ```json
 {
