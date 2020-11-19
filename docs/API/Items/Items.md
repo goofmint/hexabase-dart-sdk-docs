@@ -2,7 +2,7 @@
 title: Hexabase.Datastores.Items
 ---
 
-### getItemsAsync
+### getItemsAsync()
 
 > TODO: add response schema
 
@@ -44,7 +44,7 @@ title: Hexabase.Datastores.Items
     }
 ```
 
-### getItemSearchConditionsAsync
+### getItemSearchConditionsAsync()
 
 ```ts
     /**
@@ -61,7 +61,7 @@ title: Hexabase.Datastores.Items
     let searchConditionResp = await items.getItemSearchConditionsAsync({ project_id: 'newproject', datastore_id: 'newdb1' });
 ```
 
-### getDatastoreItemDetailsAsync
+### getDatastoreItemDetailsAsync()
 
 ```ts
     /**
@@ -78,7 +78,7 @@ title: Hexabase.Datastores.Items
     let datastoreItemDetails = items.getDatastoreItemDetailsAsync({ project_id: 'newproject', datastore_id: 'newdb1', item_id: '5b0faa3a00f7c300061dee4c' });
 ```
 
-### createItemAsync (Alpha)
+### createItemAsync() (Alpha)
 
 ```ts
     /**
