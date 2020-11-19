@@ -2,7 +2,10 @@
 title: Hexabase.Applications
 ---
 
-### getApplications
+### <mark>Applications</mark>
+Applications further lists down all essential groups of data stores available for use to use in managing data.
+
+### getApplications()
 
 > get all user workspace applications list
 
