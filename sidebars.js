@@ -12,7 +12,12 @@ module.exports = {
                 , 'API/Items/Items'
                 , 'API/Actions/Actions'
             ],
-        'Best Practices': ['Best Practices/BasicTutorial', 'Best Practices/Reactjs_typescript', 'Best Practices/PersonalCost'],
+        'Best Practices': [
+            'Best Practices/BasicTutorial'
+            , 'Best Practices/Reactjs_typescript'
+            , 'Best Practices/PersonalCost'
+            , 'Best Practices/realtimeChat'
+        ],
         Docusaurus: ['doc1', 'doc2', 'doc3', 'Hexabase/test'],
         Features: ['mdx'],
     },
