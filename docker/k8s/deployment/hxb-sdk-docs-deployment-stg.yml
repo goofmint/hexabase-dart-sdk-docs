@@ -1,0 +1,57 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: hxb-sdk-docs
+  labels:
+    app: hxb-sdk-docs
+    component: microservice
+spec:
+  selector:
+    matchLabels:
+      app: hxb-sdk-docs
+      component: microservice
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 0
+  progressDeadlineSeconds: 300
+  template:
+    metadata:
+      name: hxb-sdk-docs
+      labels:
+        app: hxb-sdk-docs
+        component: microservice
+    spec:
+      terminationGracePeriodSeconds: 1800
+      containers:
+      - name: beee-hxb-sdk-docs
+        image: beee/hxb-sdk-docs
+        readinessProbe:
+          failureThreshold: 3
+          successThreshold: 1
+          httpGet:
+            path: /
+            port: hxb-sdk-docs
+          initialDelaySeconds: 1
+          periodSeconds: 10
+          timeoutSeconds: 5
+        lifecycle:
+          preStop:
+            exec:
+              command: [ "/bin/sleep", "20" ]
+        env:
+          - name: ENV
+            value: dev
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "60m"
+          limits: {}
+        imagePullPolicy: Always
+        ports:
+        - name: hxb-sdk-docs
+          containerPort: 80
+      nodeSelector:
+        eks.amazonaws.com/nodegroup: app
