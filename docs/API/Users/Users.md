@@ -2,6 +2,18 @@
 title: Hexabase.Users
 ---
 
+
+In `Auth` will have functions:
+```bash
+loginAsync() // login with email and password
+```
+
+In `User` will have functions:
+```bash
+userInfoAsync() // get user info by token
+```
+
+
 ### hexabaseLoginAsync()
 #### [WIP]
 ```tsx

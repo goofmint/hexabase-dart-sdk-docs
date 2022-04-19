@@ -5,6 +5,12 @@ title: Hexabase.Datastores
 ### <mark>Datastores</mark>
 Datastore is a place to store many actions, managements, relations for the logical data items or rows.
 
+In `Datastore` will have functions:
+```bash
+getActionsAsync() // get actions in datastore
+getStatusesAsync() // get statuses in datastore
+```
+
 ### getActionsAsync()
 
 > get all user workspace actions in datastore 
@@ -66,7 +72,7 @@ Datastore is a place to store many actions, managements, relations for the logic
 
 ```ts
   /**
-   * get get actions in datastore
+   * get get statuses in datastore
    * @param  {string} datastoreId
    * @returns Promise
    */

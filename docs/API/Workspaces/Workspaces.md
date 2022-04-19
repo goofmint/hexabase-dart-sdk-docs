@@ -5,6 +5,12 @@ title: Hexabase.Workspaces
 ### <mark>Workspace</mark>
 We start by getting, and setting our App workspaces using the the below API. after getting the list of workspaces, we can choose which one to work to display our projects, datastores, and so on.
 
+In `Workspace` will have functions:
+```bash
+getWorkspacesAsync() // get workpsaces
+setCurrentWsAsync() // set current workpace by id
+```
+
 ### getWorkspacesAsync()
 
 > we could get all available user workspaces and current workspace id from hexabase to start working on with listing our projects, and datastores, then data items.

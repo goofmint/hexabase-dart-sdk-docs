@@ -5,6 +5,14 @@ title: Hexabase.Applications
 ### <mark>Applications</mark>
 Applications further lists down all essential groups of data stores available for use to use in managing data.
 
+
+In `Application` will have functions:
+```bash
+getApplications() // get applications and datastores list
+createAppAsync() // create a application
+```
+
+
 ### getApplications()
 
 > get all user workspace applications and datastores list

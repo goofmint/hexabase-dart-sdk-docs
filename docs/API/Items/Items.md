@@ -2,6 +2,18 @@
 title: Hexabase.Items
 ---
 
+
+### <mark>Datastores</mark>
+In Hexabase, each piece of data in the database is called an "Item". One row next to the table is the item. It corresponds to a general RDB record
+
+
+In `Datastore` will have functions:
+```bash
+getItemsAsync() // get items in datastore
+createNewItem() // create new item in datastore
+```
+
+
 ### getItemsAsync()
 
 > get all items
