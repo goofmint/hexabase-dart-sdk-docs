@@ -1,14 +1,13 @@
 ## Hexabase Configuration
 
-Starting with Hexabase class, it is used to initialize session to hexabase. by initializing this class, you can store api token to `sessionStorage` automatically, and use wide range variety of hexabase system.
-
+Starting with Hexabase class, it is used to `createClient` to hexabase. by initializing this class. Then you can using your credential in `createClient`.
 > Note: 
 > 
-> 1) this SDK uses `async/await -> Promise<T>` to access Hexabase Rest API.
+> 1) this SDK uses `async/await -> Promise<T>` to access Hexabase Grapql.
 >
-> 2) currently, does not have special bindings to any react redux, mobx or any state managements
+> 2) currently, does not have special bindings to any react, next, mobx or any state managements
 >
-> 3) basically, the implementation of the sdk is to wrap around hexabase rest API
+> 3) basically, the implementation of the sdk is to wrap around hexabase Grapql
 
 ## Configuration
 
@@ -16,10 +15,11 @@ Starting with Hexabase class, it is used to initialize session to hexabase. by i
 ```ts
 // Initialize default app
 // use your own/company credentials
-import { Hexabase } from 'hexabase-sdk'
+import { createClient } from '@hexabase/hexabase-js'
 
-Hexabase.initializeApp({
+const hexabase = createClient(
+    url:'https://hxb-graph.hexabase.com/graphql',
     email: 'j.soliva@b-eee.com',    // registered user email address in Hexabase
     password: '123456'              // user password
-})
+)
 ```

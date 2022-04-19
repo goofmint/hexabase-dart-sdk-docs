@@ -6,7 +6,7 @@ $ create-react-app personal-cost --typescript
 ```
 
 ```
-$ npm i hexabase-sdk --save
+$ npm i @hexabase/hexabase-js --save
 ```
 
 ```

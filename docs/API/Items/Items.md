@@ -1,132 +1,131 @@
 ---
-title: Hexabase.Datastores.Items
+title: Hexabase.Items
 ---
 
 ### getItemsAsync()
 
-> TODO: add response schema
+> get all items
 
 ```ts
     /**
      * get items list of datastore, can also be used for search
-     * @param  {ItemsReq} request
+     * @param {GetItemsPl} getItemsParameters, {string} datastoreId, optional {string} projectId
      * @returns Promise
      */
-    public async getItemsAsync(request: ItemsReq): Promise<ItemsResp>
+    public async getItemsAsync(getItemsParameters: GetItemsPl, datastoreId: string, projectId?: string): Promise<DsItemsRes>
 ```
 
-* ### usage 
-```ts
-    let item = new Items()
-    var datastoreItems = await item.getItemsAsync({ 
-        project_id: 'newproject', 
-        datastore_id: 'newdb1', 
-        per_page: 1, 
-        page: 1, 
-        use_display_id: true  
-    })
+> Successful response Schema
+
+```json
+  {
+    "dsItems" : [
+      {
+        "items": "any", // object have many items
+        "totalItems": "number"
+      }
+    ],
+  "error": undefined
+}
 ```
 
-* ### usage (tsx react+redux)
+- ### usage (tsx next)
 ```ts
-    export const fetchDatastoreItems = (datastore: any, project_id: string) => async (dispatch: any) => {
-        let items = await Hexabase.items().getItemsAsync({
-            project_id: project_id,
-            datastore_id: datastore.datastore_id,
-            per_page: 1, 
-            page: 1, 
-            use_display_id: true        
-        });
-        var payload = {} as any;
-        payload.cols = Object.keys(items.items[0]).filter(a => !exceptId.includes(a));
-        payload.items = items.items;
-        dispatch(setDatastoreItemsAndCols(payload))
+  import {createClient} from '@hexabase/hexabase-js';
+    const baseUrl = process.env.BASE_URL;
+    const user = JSON.parse(localStorage.getItem('user'))
+    const getItemsParameters = {
+        'page': 1,
+        'per_page': 0
     }
-```
+    const hexabase = await createClient({ url: baseUrl, token: user.token});
 
-### getItemSearchConditionsAsync()
+    const [item, setItem] = useState({} as DsItems);
 
-```ts
-    /**
-     * get datastore items search conditions, is also used in queries tab/menu
-     * @param  {ItemsSearchConditionsReq} request
-     * @returns Promise
-     */
-    public async getItemSearchConditionsAsync(request: ItemsSearchConditionsReq): Promise<ItemsSearchConditionsResp>
-```
+    async function getItems(id) {
+      const {dsItems, error} = await hexabase.item.getItemsAsync(getItemsParameters, datastoreId, projectId);
+      return dsItems;
+    }
 
-* ### usage
-```ts
-    var items = new Items();
-    let searchConditionResp = await items.getItemSearchConditionsAsync({ project_id: 'newproject', datastore_id: 'newdb1' });
-```
-
-### getDatastoreItemDetailsAsync()
-
-```ts
-    /**
-     * get complete datastore item details
-     * @param  {ItemDetailsReq} request
-     * @returns Promise
-     */
-    public async getDatastoreItemDetailsAsync(request: ItemDetailsReq): Promise<ItemDetailsResp>
-```
-
-- ### usage
-```ts
-    var items = new Items();
-    let datastoreItemDetails = items.getDatastoreItemDetailsAsync({ project_id: 'newproject', datastore_id: 'newdb1', item_id: '5b0faa3a00f7c300061dee4c' });
-```
-
-### createItemAsync() (Alpha)
-
-```ts
-    /**
-     *  create new datastore item by using new-action
-     * @param  {{datastore_id:string} request
-     * @param  {string} project_id
-     * @param  {boolean} use_display_id?
-     * @param  {boolean} is_notify_to_sender?
-     * @param  {{}} item?
-     * @param  {{}} related_ds_items?
-     * @param  {boolean}} return_item_result?
-     * @param  {any} payload
-     * @returns Promise
-     */
-    public async createItemAsync(request: { 
-            datastore_id: string, 
-            project_id: string, 
-            use_display_id?: boolean, 
-            is_notify_to_sender?: boolean,
-            item?: {}, 
-            related_ds_items?: {}, 
-            return_item_result?: boolean 
-        }, 
-        payload: any): Promise<NewItemActionResp>
-```
-
-- ### usage
-```ts
-    // TODO need more refactor
-    // simplify ws, pj, and dt selectors..
-    let ws = new Workspaces();
-    var currentWs = await ws.getWorkspacesAsync();
-
-    let application = new Applications();
-    var applicationsList = await application.getApplications({ workspace_id: currentWs.workspaces[0].workspace_id });
-
-    if(applicationsList[0] && applicationsList[0].datastores[0])
+    useEffect(() =>
     {
-        var item = new Items();
-        
-        let datastoreID = applicationsList[0].datastores[0].datastore_id; // TODO need improvements selecting datastore_id
+      const dsItems = getItems(getItemsParameters, datastoreId, projectId);
+      if (dsItems) {
+        setItem(dsItems);
+      }
+      return;
+    }, []); 
+```
 
-        // create new item
-        let newItemsResult = await item.createItemAsync({ 
-            datastore_id: datastoreID, 
-            project_id: 'newproject'
-        },
-        { Title: `testing ${Date.now()}` }); // payload using normal ID instead of field_id
-        console.log(newItemsResult)
+### createNewItem()
+
+> create new item
+
+```ts
+  /**
+   * create new Item
+   * @param {CreateNewItemPl} newItemPl, {string} datastoreId, {string} projectId
+   * @returns Promise
+   */
+  public async createNewItem(projectId, datastoreId, newItemPl): Promise<NewItemRes>
+```
+
+> Successful response Schema
+
+```json
+  {
+    "itemNew" : [
+      {
+        "error": "any",
+        "item": "any",
+        "history_id": "string",
+        "item_id": "string"
+      }
+    ],
+  "error": undefined
+}
+```
+
+- ### usage (tsx next)
+```ts
+  import {createClient} from '@hexabase/hexabase-js';
+    const baseUrl = process.env.BASE_URL;
+    const user = JSON.parse(localStorage.getItem('user'))
+    const projectId = 'projectId';
+    const datastoreId = 'datastoreId';
+    const actionId = 'actionId';
+    const newItemPl =  {
+      'action_id': `${actionId}`,
+      'use_display_id': true,
+      'return_item_result': true,
+      'ensure_transaction': false,
+      'exec_children_post_procs': true,
+      'access_key_updates': {
+          'overwrite': true,
+          'ignore_action_settings': true
+      },
+      'item': {
+          'param1' : 'field_id' ,
+          'param2': 'TITLE test',
+          'param3' : 'person in charge'
+      }
+    };
+
+    const hexabase = await createClient({ url: baseUrl, token: user.token})
+
+    const [item, setItem] = useState({} as NewItem);
+
+    async function createItem(projectId, datastoreId, newItemPl) {
+      const {itemNew, error} = await hexabase.item.createNewItem(projectId, datastoreId, newItemPl);
+      return itemNew;
     }
+
+    useEffect(() =>
+    {
+      const itemNew = getItems(projectId, datastoreId, newItemPl)
+      if (itemNew) {
+        setItem(itemNew);
+      }
+      return;
+    }, []); 
 ```

@@ -16,7 +16,7 @@ module.exports = {
       },
       items: [
         {
-          to: 'installation',
+          to: 'docs/Hexabase/Installation',
           activeBasePath: 'docs',
           label: 'Docs',
           position: 'left',
