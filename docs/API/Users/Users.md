@@ -43,7 +43,7 @@ var respToken = await this.auth.loginAsync({ "email": "j.soliva@hexabase.com", "
   import {createClient} from '@hexabase/hexabase-js';
   const url = process.env.BASE_URL;
   const hexabase = await createClient({ url, email, password });
-  var {token, error} = await await hexabase.auths.loginAsync({ email: 'j.soliva@b-eee.com', password: '123456' });
+  var {token, error} = await await hexabase.auth.loginAsync({ email: 'j.soliva@b-eee.com', password: '123456' });
 ```
 
 ### userInfoAsync()
