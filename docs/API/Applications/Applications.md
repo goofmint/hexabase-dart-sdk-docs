@@ -60,7 +60,7 @@ createAppAsync() // create a application
     const [appDs, setAppDs] = useState([] as AppAndDsRes[]);
 
     async function getAppAndDs(wId) {
-      const {appAndDs, error} = await hexabase.application.getAppAndDsAsync(wId);
+      const {appAndDs, error} = await hexabase.applications.getAppAndDsAsync(wId);
       return appAndDs;
     }
 
@@ -103,7 +103,7 @@ createAppAsync() // create a application
     const hexabase = await createClient({ url: baseUrl, token: user.token});
 
     async function createApplication(createProjectParams) {
-      const { app, error } = await hexabase.application.createAppAsync(createProjectParams);
+      const { app, error } = await hexabase.applications.createAppAsync(createProjectParams);
       return app;
     }
 

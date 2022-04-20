@@ -57,7 +57,7 @@ getItemsHistories() // get item histories
     const [item, setItem] = useState({} as DsItems);
 
     async function getItems(id) {
-      const {dsItems, error} = await hexabase.item.getItemsAsync(getItemsParameters, datastoreId, projectId);
+      const {dsItems, error} = await hexabase.items.getItemsAsync(getItemsParameters, datastoreId, projectId);
       return dsItems;
     }
 
@@ -130,7 +130,7 @@ getItemsHistories() // get item histories
     const [item, setItem] = useState({} as NewItem);
 
     async function createItem(projectId, datastoreId, newItemPl) {
-      const {itemNew, error} = await hexabase.item.createNewItem(projectId, datastoreId, newItemPl);
+      const {itemNew, error} = await hexabase.items.createNewItem(projectId, datastoreId, newItemPl);
       return itemNew;
     }
 
@@ -189,7 +189,7 @@ getItemsHistories() // get item histories
     const [item, setItem] = useState({} as NewItem);
 
     async function itemDetail(datastoreId, itemId) {
-      const {itemDetails, error} = await hexabase.item.getItemDetail(datastoreId, itemId);
+      const {itemDetails, error} = await hexabase.items.getItemDetail(datastoreId, itemId);
       return itemDetails;
     }
 
@@ -267,7 +267,7 @@ getItemsHistories() // get item histories
     const [itemHis, setItemHis] = useState({} as NewItem);
 
     async function itemsHistories(projectId: string, datastoreId: string, itemId: string, historyParams?: GetHistoryPl ) {
-      const {itemHistories, error} = await hexabase.item.getgetItemsHistoriesItemDetail(projectId, datastoreId, itemId, historyParams);
+      const {itemHistories, error} = await hexabase.items.getgetItemsHistoriesItemDetail(projectId, datastoreId, itemId, historyParams);
       return itemHistories;
     }
 

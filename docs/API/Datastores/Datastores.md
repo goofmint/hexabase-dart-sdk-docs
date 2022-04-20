@@ -54,7 +54,7 @@ getStatusesAsync() // get statuses in datastore
   const hexabase = await createClient({ url: baseUrl, token: user.token});
 
   async function getActions(dsId) {
-    const {dsActions, error} = await hexabase.datastore.getActionsAsync(dsId);
+    const {dsActions, error} = await hexabase.datastores.getActionsAsync(dsId);
     return dsActions;
   }
 
@@ -110,7 +110,7 @@ getStatusesAsync() // get statuses in datastore
   const hexabase = await createClient({ url: baseUrl, token: user.token});
 
   async function getStatuses(dsId) {
-    const {dsStatuses, error} = await hexabase.datastore.getStatusesAsync(dsId);
+    const {dsStatuses, error} = await hexabase.datastores.getStatusesAsync(dsId);
     return dsStatuses
   }
 
