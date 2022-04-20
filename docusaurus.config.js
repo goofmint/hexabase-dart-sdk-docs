@@ -93,4 +93,5 @@ module.exports = {
       },
     ],
   ],
+  // themes: ['@docusaurus/theme-search-algolia'],
 };

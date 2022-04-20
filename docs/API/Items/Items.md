@@ -11,6 +11,8 @@ In `Datastore` will have functions:
 ```bash
 getItemsAsync() // get items in datastore
 createNewItem() // create new item in datastore
+getItemDetail() // get item detail
+getItemsHistories() // get item histories
 ```
 
 
@@ -137,6 +139,143 @@ createNewItem() // create new item in datastore
       const itemNew = getItems(projectId, datastoreId, newItemPl)
       if (itemNew) {
         setItem(itemNew);
+      }
+      return;
+    }, []); 
+```
+
+### getItemDetail()
+
+> get item detail
+
+```ts
+  /**
+   * get item detail in datastore
+   * @param {string} datastoreId, optimal {string} projectId, {GetItemDetailPl} itemDetailParams
+   * @returns Promise
+   */
+  public async getItemDetail( datastoreId, itemId, projectId, itemDetailParams): Promise<ItemDetailRes>
+```
+
+> Successful response Schema
+
+```json
+  {
+    "itemDetails" : 
+      {
+        "title": "string",
+        "rev_no": "number",
+        "field_values": "any",
+        "status_list": "any",
+        "status_actions": "any",
+        "item_actions": "any",
+        "status_order": "any",
+        "status_action_order": "any",
+        "item_action_order": "any",
+      },
+  "error": undefined
+}
+```
+- ### usage (tsx next)
+```ts
+  import {createClient} from '@hexabase/hexabase-js';
+    const baseUrl = process.env.BASE_URL;
+    const user = JSON.parse(localStorage.getItem('user'))
+    const datastoreId = 'datastoreId';
+    const itemId = 'itemId';
+
+    const hexabase = await createClient({ url: baseUrl, token: user.token})
+
+    const [item, setItem] = useState({} as NewItem);
+
+    async function itemDetail(datastoreId, itemId) {
+      const {itemDetails, error} = await hexabase.item.getItemDetail(datastoreId, itemId);
+      return itemDetails;
+    }
+
+    useEffect(() =>
+    {
+      const itemDetails = itemDetail(datastoreId, itemId)
+      if (itemDetails) {
+        setItem(itemDetails);
+      }
+      return;
+    }, []); 
+```
+
+### getItemsHistories()
+
+> get item histories
+
+```ts
+  /**
+   * get item histories
+   * @param {string} projectId, {string} datastoreId, {string} itemId, optimal : {GetHistoryPl} historyParams
+   * @returns Promise
+   */
+  public async getItemsHistories(projectId: string, datastoreId: string, itemId: string, historyParams?: GetHistoryPl ): Promise<ItemHistoriesRes>
+```
+
+> Successful response Schema
+
+```json
+  {
+    "itemHistories" : 
+      {
+        "histories": [
+         {
+            "history_id": "string",
+            "display_order": "number",
+            "is_unread": "boolean",
+            "comment": "string",
+            "created_at": "string",
+            "action_id": "string",
+            "action_name": "string",
+            "transaction_id": "string",
+            "action_operation": "string",
+            "is_status_action": "boolean",
+            "datastore_id": "string",
+            "datastore_name": "string",
+            "user_id": "string",
+            "username": "string",
+            "email": "string",
+            "updated_by": "string",
+            "updated_at": "string",
+            "media_link": "string",
+            "is_updated": "boolean"
+          }
+        ],
+        "unread": "number",
+      },
+  "error": undefined
+}
+```
+- ### usage (tsx next)
+```ts
+  import {createClient} from '@hexabase/hexabase-js';
+    const baseUrl = process.env.BASE_URL;
+    const user = JSON.parse(localStorage.getItem('user'))
+    const datastoreId = 'datastoreId';
+    const itemId = 'itemId';
+    const historyParams = {
+      'from_index': 0,
+      'to_index': 1
+    };
+
+    const hexabase = await createClient({ url: baseUrl, token: user.token})
+
+    const [itemHis, setItemHis] = useState({} as NewItem);
+
+    async function itemsHistories(projectId: string, datastoreId: string, itemId: string, historyParams?: GetHistoryPl ) {
+      const {itemHistories, error} = await hexabase.item.getgetItemsHistoriesItemDetail(projectId, datastoreId, itemId, historyParams);
+      return itemHistories;
+    }
+
+    useEffect(() =>
+    {
+      const itemHistories = itemsHistories(projectId, datastoreId, itemId, historyParams)
+      if (itemHistories) {
+        setItemHis(itemHistories);
       }
       return;
     }, []); 
