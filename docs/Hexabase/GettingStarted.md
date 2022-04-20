@@ -9,7 +9,7 @@ SDK is a set of predefined pieces functions, wrappers, libraries, and convention
 this SDK includes
 
 - Functions => pre-defined pieces of code that wraps hexabase API, and let developers perform common programming tasks on the platform.
-- Conventions => to help aid the developers to build applications within hexabase conventions. which requires developers to almost no configurations
+- Conventions => to help aid the developers to build applications within hexabase conventions. Which requires developers to almost no configurations
 - Standardizations => this helps write applications behave consistently, run in different frameworks, and are easy to test.
 - Utilities => to help simplify many common use cases, like storing/reading tokens, json response wrangling, and many more to come.
 
@@ -18,9 +18,9 @@ this SDK includes
 # Concepts In Hexabase
 Before we get deep dive, let's know how hexabase is structured, and what this SDK could offer to us.
 
-In Hexabase, we provide facility to organize data rows using relations. we dive this responsiblities in to different parts in to heirarchy models and relationships. with this, we can organize well specific tasks, actions, and certain data into a simple way, securely, easy to manage, and reliable.
+In Hexabase, we provide facility to organize data rows using relations. We dive this responsiblities in to different parts in to heirarchy models and relationships. With this, we can organize well specific tasks, actions, and certain data into a simple way, securely, easy to manage, and reliable.
 
-starting with <mark>Workspace</mark>, it is the most top level of the heirarchy of relations, can edit essential settings to define how your current workspace would appear, behave, security roles, as well as linking other workspaces and many more. 
+Starting with <mark>Workspace</mark>, it is the most top level of the heirarchy of relations, can edit essential settings to define how your current workspace would appear, behave, security roles, as well as linking other workspaces and many more. 
 
 next is <mark>Application</mark>, this is where we come close in the middle of the heirarchy, where we act as the center of relationships between `has_many` and `belongs_to` workspaces, and datastores. in contrast to workspaces, <mark>Applications</mark> works like a workspaces, but the only difference heirarchy with a little more configuration. 
 
