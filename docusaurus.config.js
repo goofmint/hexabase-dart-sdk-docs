@@ -2,7 +2,7 @@ module.exports = {
   title: 'Hexabase SDK',
   tagline: 'Typescript SDK for Hexabase API',
   url: 'https://b-eee.github.io',
-  baseUrl: '/hexabase-sdk-docs/',
+  baseUrl: '/',
   onBrokenLinks: 'ignore',
   favicon: 'img/favicon.ico',
   organizationName: 'b-eee', // Usually your GitHub org/user name.
