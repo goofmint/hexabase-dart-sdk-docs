@@ -70,6 +70,24 @@ module.exports = {
       ],
       copyright: `Copyright © ${new Date().getFullYear()} Hexabase-SDK. Built with Docusaurus.`,
     },
+    algolia: {
+      // The application ID provided by Algolia
+      appId: 'TT5KY47HTN',
+
+      // Public API key: it is safe to commit it
+      apiKey: '86c500a399a786aaacd4d2b28f177a1e',
+
+      indexName: 'dev_hxb',
+
+
+      // Optional: path for search page that enabled by default (`false` to disable it)
+      searchPagePath: 'search',
+      contextualSearch: true,
+      // searchParameters: {
+      //   facetFilters: ['language:en', ['filter1', 'filter2'], 'filter3'],
+      // },
+      //... other Algolia params
+    },
   },
   presets: [
     [
