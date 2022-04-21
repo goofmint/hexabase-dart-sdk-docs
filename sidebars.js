@@ -14,9 +14,6 @@ module.exports = {
         'Best Practices': [
             'Best Practices/BasicTutorial'
             , 'Best Practices/Nextjs_typescript'
-            , 'Best Practices/PersonalCost'
         ],
-        'Docusaurus': ['Docusaurus/guide'],
-        'Features': ['Features/mdx'],
     },
 };
