@@ -51,6 +51,7 @@ workflows:
           image: $IMG_URL/hxb-sdk-docs
           dockerfile: docker/app/Dockerfile
           extra_build_args: --build-arg ARCH=$ARCH --build-arg ACCESS_TOKEN_USR=$GITHUB_COMPANY_USERNAME --build-arg ACCESS_TOKEN_PWD=$GITHUB_COMPANY_TOKEN
+          tag: ${CIRCLE_SHA1:0:7}
           filters:
               branches:
                 only:
@@ -74,7 +75,7 @@ workflows:
           cluster-name: $EKS_CLUSTER_NAME
           aws-region: $AWS_REGION
           resource-name: "deployment/hxb-sdk-docs"
-          container-image-updates: "beee-hxb-sdk-docs=$IMG_URL/hxb-sdk-docs:$CIRCLE_SHA1"
+          container-image-updates: "beee-hxb-sdk-docs=$IMG_URL/hxb-sdk-docs:${CIRCLE_SHA1:0:7}"
           get-rollout-status: true
           watch-rollout-status: true
           namespace: default
@@ -98,7 +99,7 @@ workflows:
           cluster-name: $EKS_CLUSTER_NAME
           aws-region: $AWS_REGION
           resource-name: "deployment/hxb-sdk-docs"
-          container-image-updates: "beee-hxb-sdk-docs=$IMG_URL/hxb-sdk-docs:$CIRCLE_SHA1"
+          container-image-updates: "beee-hxb-sdk-docs=$IMG_URL/hxb-sdk-docs:${CIRCLE_SHA1:0:7}"
           get-rollout-status: true
           watch-rollout-status: true
           namespace: hexabase
@@ -138,7 +139,7 @@ workflows:
           cluster-name: $EKS_CLUSTER_NAME
           aws-region: $AWS_REGION
           resource-name: "deployment/hxb-sdk-docs"
-          container-image-updates: "beee-hxb-sdk-docs=$IMG_URL/hxb-sdk-docs:$CIRCLE_SHA1"
+          container-image-updates: "beee-hxb-sdk-docs=$IMG_URL/hxb-sdk-docs:${CIRCLE_SHA1:0:7}"
           get-rollout-status: true
           watch-rollout-status: true
           namespace: default
