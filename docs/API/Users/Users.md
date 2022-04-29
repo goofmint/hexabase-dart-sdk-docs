@@ -2,35 +2,48 @@
 title: Hexabase.Users
 ---
 
+
+In `Auth` will have functions:
+```bash
+loginAsync() // login with email and password
+```
+
+In `User` will have functions:
+```bash
+userInfoAsync() // get user info by token
+```
+
+
 ### hexabaseLoginAsync()
 #### [WIP]
 ```tsx
     /**
-     * @param  {HexabaseConfig} payload
+     * @param  {LoginInputPayload} loginInput
      * @returns Promise
      */
-    public async hexabaseLoginAsync(payload: HexabaseConfig): Promise<UsersLoginResp>
+    public async loginAsync(loginInput: LoginInputPayload ): Promise<LoginRes>
 ```
 > Usages
 ```tsx
-var respToken = await this.auth.hexabaseLoginAsync({ "email": "j.soliva@hexabase.com", "password": "123456" });
+var respToken = await this.auth.loginAsync({ "email": "j.soliva@hexabase.com", "password": "123456" });
 ```
 
 ### loginAsync()
 #### [WIP]
-`loginAsync` is the basic api that auth user credentials, return a json `{"token": "fdsafasfsa2313131"}` that you can use to store JWT token
+`loginAsync` is the basic api that auth user credentials, return a json `{"token": "eyJhbGciOiJIxxxx"}` that you can use to store JWT token
 ```tsx
-    /**
-     * @param  {UsersLoginReq} payload
-     * @returns Promise
-     */
-    public async loginAsync(payload: UsersLoginReq): Promise<UsersLoginResp>
+  /**
+   * @param  {LoginInputPayload} loginInput
+   * @returns Promise
+   */
+  public async loginAsync(loginInput: LoginInputPayload): Promise<LoginRes>
 ```
 > Usages
 ```tsx
-    var auth = new Auth();
-    var respToken = await auth.loginAsync({ email: 'j.soliva@b-eee.com', password: '123456' });
-    HxbSessionStorage.Write('token', respToken.token);
+  import {createClient} from '@hexabase/hexabase-js';
+  const url = process.env.BASE_URL;
+  const hexabase = await createClient({ url, email, password });
+  var {token, error} = await await hexabase.auth.loginAsync({ email: 'j.soliva@b-eee.com', password: '123456' });
 ```
 
 ### userInfoAsync()
@@ -38,11 +51,11 @@ var respToken = await this.auth.hexabaseLoginAsync({ "email": "j.soliva@hexabase
 get user informations
 
 ```ts
-    /**
-     * return user basic informations
-     * @returns Promise
-     */
-    public async userInfoAsync(): Promise<UserInfoResp>
+  /**
+   * return user basic informations
+   * @returns Promise
+   */
+  public async userInfoAsync(): Promise<UserInfoRes>
 ```
 
 > Successful return Schema 
@@ -68,33 +81,25 @@ get user informations
 }
 ```
 
-- ### usage
+- ### usage (tsx next)
 ```ts
-    let userInfo = await Hexabase.users().userInfoAsync();
-```
+  import {createClient} from '@hexabase/hexabase-js';
+  const baseUrl = process.env.BASE_URL;
+  const user = JSON.parse(localStorage.getItem('user'));
 
-### getTokenAsync()
-get temporary token
+  const [userInfo, setUserInfo] = useState({} as UserInfo);
 
-```ts
-    /**
-     * get temporary token
-     * @returns Promise
-     */
-    public async getTokenAsync(): Promise<UsersLoginResp>
-```
+  async function getUserInfo() {
+    const {userInfo, error} = await hexabase.users.userInfoAsync();
+    return userInfo;
+  }
 
-> Successful return schema
-
-```json
-{
-  "token": "string"
-}
-```
-
-
-- ### usage
-```ts
-    var auth = new Auth();
-    var tokenResp = await auth.getTokenAsync();
+  useEffect(() =>
+  {
+    const userInfo = getUserInfo();
+    if(userInfo) {
+      setUserInfo(userInfo);
+    }
+    return;
+  }, []);
 ```
