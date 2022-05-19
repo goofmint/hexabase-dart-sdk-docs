@@ -9,24 +9,22 @@ In Hexabase, each piece of data in the database is called an "Item". One row nex
 
 In `Datastore` will have functions:
 ```bash
-getItemsAsync() // get items in datastore
-createNewItem() // create new item in datastore
+get() // get items in datastore
+create() // create new item in datastore
 getItemDetail() // get item detail
-getItemsHistories() // get item histories
+getHistories() // get item histories
 ```
 
 
-### getItemsAsync()
-
-> get all items
+### - get()
 
 ```ts
-    /**
-     * get items list of datastore, can also be used for search
-     * @param {GetItemsPl} getItemsParameters, {string} datastoreId, optional {string} projectId
-     * @returns Promise
-     */
-    public async getItemsAsync(getItemsParameters: GetItemsPl, datastoreId: string, projectId?: string): Promise<DsItemsRes>
+  /**
+   * get items list of datastore, can also be used for search
+   * @param {GetItemsPl} getItemsParameters, {string} datastoreId, optional {string} projectId
+   * @returns Promise
+   */
+  public async get(getItemsParameters: GetItemsPl, datastoreId: string, projectId?: string): Promise<DsItemsRes>
 ```
 
 > Successful response Schema
@@ -57,7 +55,7 @@ getItemsHistories() // get item histories
     const [item, setItem] = useState({} as DsItems);
 
     async function getItems(id) {
-      const {dsItems, error} = await hexabase.items.getItemsAsync(getItemsParameters, datastoreId, projectId);
+      const {dsItems, error} = await hexabase.items.get(getItemsParameters, datastoreId, projectId);
       return dsItems;
     }
 
@@ -71,17 +69,15 @@ getItemsHistories() // get item histories
     }, []); 
 ```
 
-### createNewItem()
-
-> create new item
+### - create()
 
 ```ts
   /**
    * create new Item
-   * @param {CreateNewItemPl} newItemPl, {string} datastoreId, {string} projectId
+   * @param {createPl} newItemPl, {string} datastoreId, {string} projectId
    * @returns Promise
    */
-  public async createNewItem(projectId, datastoreId, newItemPl): Promise<NewItemRes>
+  public async create(projectId, datastoreId, newItemPl): Promise<NewItemRes>
 ```
 
 > Successful response Schema
@@ -130,7 +126,7 @@ getItemsHistories() // get item histories
     const [item, setItem] = useState({} as NewItem);
 
     async function createItem(projectId, datastoreId, newItemPl) {
-      const {itemNew, error} = await hexabase.items.createNewItem(projectId, datastoreId, newItemPl);
+      const {itemNew, error} = await hexabase.items.create(projectId, datastoreId, newItemPl);
       return itemNew;
     }
 
@@ -144,7 +140,7 @@ getItemsHistories() // get item histories
     }, []); 
 ```
 
-### getItemDetail()
+### - getItemDetail()
 
 > get item detail
 
@@ -203,9 +199,7 @@ getItemsHistories() // get item histories
     }, []); 
 ```
 
-### getItemsHistories()
-
-> get item histories
+### - getHistories()
 
 ```ts
   /**
@@ -213,7 +207,7 @@ getItemsHistories() // get item histories
    * @param {string} projectId, {string} datastoreId, {string} itemId, optimal : {GetHistoryPl} historyParams
    * @returns Promise
    */
-  public async getItemsHistories(projectId: string, datastoreId: string, itemId: string, historyParams?: GetHistoryPl ): Promise<ItemHistoriesRes>
+  public async getHistories(projectId: string, datastoreId: string, itemId: string, historyParams?: GetHistoryPl ): Promise<ItemHistoriesRes>
 ```
 
 > Successful response Schema
@@ -267,7 +261,57 @@ getItemsHistories() // get item histories
     const [itemHis, setItemHis] = useState({} as NewItem);
 
     async function itemsHistories(projectId: string, datastoreId: string, itemId: string, historyParams?: GetHistoryPl ) {
-      const {itemHistories, error} = await hexabase.items.getgetItemsHistoriesItemDetail(projectId, datastoreId, itemId, historyParams);
+      const {itemHistories, error} = await hexabase.items.getgetHistoriesItemDetail(projectId, datastoreId, itemId, historyParams);
+      return itemHistories;
+    }
+
+    useEffect(() =>
+    {
+      const itemHistories = itemsHistories(projectId, datastoreId, itemId, historyParams)
+      if (itemHistories) {
+        setItemHis(itemHistories);
+      }
+      return;
+    }, []); 
+```
+
+### - update()
+
+```ts
+ /**
+   * function update: get field action setting in Ds
+   * @params datastoreId and actionIdare requirement
+   * @returns UpdatedItemRes
+   */
+  public async update(projectId: string, datastoreId: string, itemId: string, itemUpdatePayload: ItemUpdatePayload,): Promise<UpdatedItemRes>
+```
+
+> Successful response Schema
+
+```json
+  {
+    "item" : "any", // object item
+    "error": undefined
+}
+```
+- ### usage (tsx next)
+```ts
+  import {createClient} from '@hexabase/hexabase-js';
+    const baseUrl = process.env.BASE_URL;
+    const user = JSON.parse(localStorage.getItem('user'))
+    const datastoreId = 'datastoreId';
+    const itemId = 'itemId';
+    const historyParams = {
+      'from_index': 0,
+      'to_index': 1
+    };
+
+    const hexabase = await createClient({ url: baseUrl, token: user.token})
+
+    const [itemHis, setItemHis] = useState({} as NewItem);
+
+    async function itemsHistories(projectId: string, datastoreId: string, itemId: string, historyParams?: GetHistoryPl ) {
+      const {itemHistories, error} = await hexabase.items.getgetHistoriesItemDetail(projectId, datastoreId, itemId, historyParams);
       return itemHistories;
     }
 

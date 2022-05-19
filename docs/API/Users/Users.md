@@ -2,82 +2,35 @@
 title: Hexabase.Users
 ---
 
-
-In `Auth` will have functions:
-```bash
-loginAsync() // login with email and password
-```
-
 In `User` will have functions:
 ```bash
-userInfoAsync() // get user info by token
+register() // get user register info by confirmationId
 ```
 
-
-### hexabaseLoginAsync()
-#### [WIP]
-```tsx
-    /**
-     * @param  {LoginInputPayload} loginInput
-     * @returns Promise
-     */
-    public async loginAsync(loginInput: LoginInputPayload ): Promise<LoginRes>
-```
-> Usages
-```tsx
-var respToken = await this.auth.loginAsync({ "email": "j.soliva@hexabase.com", "password": "123456" });
-```
-
-### loginAsync()
-#### [WIP]
-`loginAsync` is the basic api that auth user credentials, return a json `{"token": "eyJhbGciOiJIxxxx"}` that you can use to store JWT token
-```tsx
-  /**
-   * @param  {LoginInputPayload} loginInput
-   * @returns Promise
-   */
-  public async loginAsync(loginInput: LoginInputPayload): Promise<LoginRes>
-```
-> Usages
-```tsx
-  import {createClient} from '@hexabase/hexabase-js';
-  const url = process.env.BASE_URL;
-  const hexabase = await createClient({ url, email, password });
-  var {token, error} = await await hexabase.auth.loginAsync({ email: 'j.soliva@b-eee.com', password: '123456' });
-```
-
-### userInfoAsync()
-
-get user informations
+### - register()
 
 ```ts
-  /**
-   * return user basic informations
-   * @returns Promise
-   */
-  public async userInfoAsync(): Promise<UserInfoRes>
+/**
+ * function userRegisterAsync: get user register info by confirmationId
+ * @param confirmationId
+ * @returns UserRegisterRes
+ */
+public async register(confirmationId: string): Promise<UserRegisterRes>
 ```
 
 > Successful return Schema 
 ```json
 {
-  "uid": "string",
-  "username": "string",
-  "email": "string",
-  "profile_pic": "string",
-  "current_workspace_id": "string",
-  "is_ws_admin": true,
-  "user_roles": [
-    {
-      "rid": "string",
-      "role_name": "string",
-      "role_display_id": "string",
-      "pid": "string",
-      "app_display_id": "string",
-      "app_name": "string",
-      "app_display_order": 0
-    }
-  ]
+  "userRegister": {
+    "username": "username",
+    "isElapsed": true,
+    "id": "id",
+    "email_confirmed": true,
+    "email": "email",
+    "confirmed": true,
+    "confirmation_id": "confirmation_id",
+  },
+  "error": undefined
 }
 ```
 
@@ -87,18 +40,18 @@ get user informations
   const baseUrl = process.env.BASE_URL;
   const user = JSON.parse(localStorage.getItem('user'));
 
-  const [userInfo, setUserInfo] = useState({} as UserInfo);
+  const [userRegister, setUserRegister] = useState({} as UserRegister);
 
-  async function getUserInfo() {
-    const {userInfo, error} = await hexabase.users.userInfoAsync();
-    return userInfo;
+  async function getUserInfo(confirmationId: string) {
+    const {userRegister, error} = await hexabase.users.register(confirmationId);
+    return userRegister;
   }
 
   useEffect(() =>
   {
-    const userInfo = getUserInfo();
-    if(userInfo) {
-      setUserInfo(userInfo);
+    const userRes = getUserInfo(confirmationId);
+    if(userRes) {
+      setUserRegister(userRes);
     }
     return;
   }, []);

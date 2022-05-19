@@ -27,7 +27,7 @@ title: Nextjs
 
 ## List Database
 ```jsx
-  let {appAndDs, error} = await hexabse.application.getAppAndDsAsync(workspaceID)
+  let {appAndDs, error} = await hexabse.application.getProjectsAndDatastores(workspaceID)
   {appAndDs &&
     appAndDs.map(app =>
     {
