@@ -10,6 +10,7 @@ module.exports = {
                 , 'API/Users/Users'
                 , 'API/Datastores/Datastores'
                 , 'API/Items/Items'
+                , 'API/Auth/Auth'
             ],
         'Best Practices': [
             'Best Practices/BasicTutorial'

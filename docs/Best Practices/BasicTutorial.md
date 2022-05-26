@@ -41,9 +41,7 @@ const url = process.env.BASE_URL;
 const hexabase = createClient(url, email: 'j.soliva@b-eee.com', password: 'test' );
 ```
 
-## Introducing: getWorkspacesAsync
-sdk includes getWorkspacesAsync to fetch all available workspaces for the user. this function wraps hexabase api for getting workspaces, returing a list of `Workspaces` in `Promise`
-
+## Introducing: get() in workspace
 
 ```ts
 // fetchWorkspaces get all available workspaces
@@ -51,7 +49,7 @@ export const fetchWorkspaces = () => async (dispatch: any) => {
 
     let  {workspaces, error} = await hexabase
                     .workspaces
-                    .getWorkspacesAsync()()<WorkspacesRes>();
+                    .get()<[WorkspacesRes]>();
 
     // we can use the response for dispatching an action
     dispatch(getWorkspaces(resp.workspaces));
@@ -59,25 +57,30 @@ export const fetchWorkspaces = () => async (dispatch: any) => {
 ```
 
 
-## Introducing: getApplications
-or in this tutorial, we call it as `years`
+## Introducing: getProjectsAndDatastores() in application
+sdk includes getProjectsAndDatastores() to fetch all available application and datastore in workspace. this function wraps hexabase api for getting workspaces, returing a list of `Workspaces` in `Promise`
 ```ts
 //fetchProjects get all projects by workspace id
+export const fetchWorkspaces = () => async (dispatch: any) => {
+
     let {appAndDs, error} = await hexabase
                             .applications
-                            .getAppAndDsAsync({ workspaceId: currentWs.workspace_id })<AppAndDsRes>();
+                            .getProjectsAndDatastores({ workspaceId: currentWs.workspace_id })<AppAndDsRes>();
     
     // we can use the response for dispatching an action
     dispatch(
-        setProjects(appAndDs) // action
+        getProjectDatastores(appAndDs) // action
     );
+}
 ```
 
-## Introducing: getItemsAsync
+## Introducing: get() in item
 ```ts
+export const fetchWorkspaces = () => async (dispatch: any) => {
+
     let {dsItems, error} = await hexabase
                         .items
-                        .getItemsAsync({
+                        .get({
                            getItemsParameters: GetItemsPl, datastoreId: string, 
                            projectId?: string      
                         })<DsItemsRes>();
@@ -85,6 +88,7 @@ or in this tutorial, we call it as `years`
     
     // we dispatch the mapped item
     dispatch(
-        setDatastoreItemsAndCols(dsItems.items) // action
+        getItems(dsItems.items) // action
     )
+}
 ```
