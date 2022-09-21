@@ -7,9 +7,9 @@ We start by getting, and setting our App workspaces using the the below API. aft
 
 In `Workspace` will have functions:
 ```bash
-get() // get workpsaces
-create() // set current workpace by id
-setCurrent() // set current workpace by id
+get() // get workspaces
+create() // created workspace
+setCurrent() // set current workspace by id
 ```
 
 ### - get()
@@ -149,4 +149,325 @@ setCurrent() // set current workpace by id
 
       return;
     }, []);    
+```
+
+### - getCurrent()
+
+```ts
+  /**
+   * get workspaces id current
+   * @returns WorkspaceCurrentRes
+   */
+  public async getCurrent(): Promise<WorkspaceCurrentRes>
+```
+
+> Successful response schema
+
+```json
+  {
+    "wsCurrent": { 
+      "workspace_id": "632ad81082bd898623884d2b" 
+    },
+    "error": undefined,
+  }
+```
+
+- ### usage (tsx next)
+```tsx
+    import {createClient} from '@hexabase/hexabase-js';
+
+    const baseUrl = process.env.BASE_URL;
+    const user = JSON.parse(localStorage.getItem('user'));
+    const hexabase = await createClient({ url: baseUrl, token: user.token})
+    const [workspaceCurrent, setWorkspaceCurrent] = useState([] as WorkspacesRes[]);
+
+    useEffect(() =>
+    {
+      hexabase.workspaces.getCurrent().then(resp => setWorkspaces(resp.wsCurrent));
+      return;
+    }, []);
+```
+
+### - getPasswordPolicy()
+
+```ts
+  /**
+   * function getPasswordPolicy: get workspace password policy
+   * @param  workspaceId: string
+   * @returns WsPasswordPolicyRes
+   */
+  public async getPasswordPolicy(workspaceId: string): Promise<WsPasswordPolicyRes>
+```
+
+> Successful response schema
+
+```json
+    {
+      "wsPasswordPolicy": {
+        "expired_day": 30,
+        "lockout_count": 5,
+        "lockout_time": 5,
+        "min_length": 6,
+        "pattern_check_type": 0,
+        "same_limit": 2,
+        "use_expired_day": false,
+        "use_lockout_count": false,
+        "use_lockout_time": false,
+        "use_min_length": false,
+        "use_pattern_check": false,
+        "use_same_limit": false
+      },
+      "error": undefined
+    }
+```
+
+- ### usage (tsx next)
+```tsx
+    import {createClient} from '@hexabase/hexabase-js';
+
+    const baseUrl = process.env.BASE_URL;
+    const workspaceId = process.env.WORKSPACEID;
+    const user = JSON.parse(localStorage.getItem('user'));
+    const hexabase = await createClient({ url: baseUrl, token: user.token})
+    const [workspaceCurrent, setWorkspaceCurrent] = useState([] as WorkspacesRes[]);
+
+    useEffect(() =>
+    {
+      hexabase.workspaces.getPasswordPolicy(workspaceId).then(resp => setWorkspaces(resp.wsPasswordPolicy));
+      return;
+    }, []);
+```
+
+### - getFunctionality()
+
+```ts
+  /**
+   * function getFunctionality: get workspace functionality
+   * @param  workspaceId: string
+   * @returns WsPasswordPolicyRes
+   */
+  public async getPasswordPolicy(workspaceId: string): Promise<WsPasswordPolicyRes>
+```
+
+> Successful response schema
+
+```json
+     {
+      "wsFunctionality": {
+        "w_id": "624ac2f3cbb42c82793c10e6",
+        "ws_functions": {
+          "use_global_search": true,
+          "use_beta": false,
+          "use_password_policy": true,
+          "use_create_workspace": 2
+        },
+        "app_functions": {
+          "use_dashboards": true,
+          "use_queries": true,
+          "use_create_application": true,
+          "use_reports": true
+        }
+      },
+      "error": undefined
+    }
+```
+
+- ### usage (tsx next)
+```tsx
+    import {createClient} from '@hexabase/hexabase-js';
+
+    const baseUrl = process.env.BASE_URL;
+    const workspaceId = process.env.WORKSPACEID;
+    const user = JSON.parse(localStorage.getItem('user'));
+    const hexabase = await createClient({ url: baseUrl, token: user.token})
+    const [workspaceCurrent, setWorkspaceCurrent] = useState([] as WorkspacesRes[]);
+
+    useEffect(() =>
+    {
+      hexabase.workspaces.getPasswordPolicy(workspaceId).then(resp => setWorkspaces(resp.wsFunctionality));
+      return;
+    }, []);
+```
+
+### - getUsage()
+
+```ts
+  /**
+   * function getUsage: get workspace usage
+   * @param  workspaceId: string
+   * @returns WsUsageRes
+   */
+  public async getUsage(workspaceId: string): Promise<WsUsageRes>
+```
+
+> Successful response schema
+
+```json
+     {
+      "wsUsage": {
+        "w_id": "632ae4bf0aaae33f4971612b",
+        "usage": {
+          "users": 1,
+          "users_limit": 3,
+          "storage": 0,
+          "storage_limit": 50,
+          "items": 0,
+          "items_limit": 0,
+          "datastores_limit": 5,
+          "datastores": 0
+        }
+      },
+      "error": undefined
+    }
+```
+
+- ### usage (tsx next)
+```tsx
+    import {createClient} from '@hexabase/hexabase-js';
+
+    const baseUrl = process.env.BASE_URL;
+    const workspaceId = process.env.WORKSPACEID;
+    const user = JSON.parse(localStorage.getItem('user'));
+    const hexabase = await createClient({ url: baseUrl, token: user.token})
+    const [workspaceCurrent, setWorkspaceCurrent] = useState([] as WorkspacesRes[]);
+
+    useEffect(() =>
+    {
+      hexabase.workspaces.getPasswordPolicy(workspaceId).then(resp => setWorkspaces(resp.wsUsage));
+      return;
+    }, []);
+```
+
+### - getGroupChildren()
+
+```ts
+  /**
+   * function getGroupChildren: get workspace children in group
+   * @param  workspaceId: string
+   * @returns WsGroupChildrenRes
+   */
+  public async getGroupChildren(workspaceId: string): Promise<WsGroupChildrenRes>
+```
+
+> Successful response schema
+
+```json
+    {
+      "wsGroupChildren": {
+        "error": "",
+        "group": {
+          "index": 0,
+          "name": "WORKSPACE.DEFAULT_GROUP_NAME",
+          "group_id": "Grp-jhiDUaJm",
+          "g_id": "632ae5ec82bd898623884d5a"
+        },
+        "children": [],
+        "count": 0
+      },
+      "error": undefined
+    }
+```
+
+- ### usage (tsx next)
+```tsx
+    import {createClient} from '@hexabase/hexabase-js';
+
+    const baseUrl = process.env.BASE_URL;
+    const workspaceId = process.env.WORKSPACEID;
+    const user = JSON.parse(localStorage.getItem('user'));
+    const hexabase = await createClient({ url: baseUrl, token: user.token})
+    const [workspaceCurrent, setWorkspaceCurrent] = useState([] as WorkspacesRes[]);
+
+    useEffect(() =>
+    {
+      hexabase.workspaces.getGroupChildren(workspaceId).then(resp => setWorkspaces(resp.wsGroupChildren));
+      return;
+    }, []);
+```
+
+### - getTaskQueueList()
+
+```ts
+  /**
+   * function getTaskQueueList: get queue list
+   * @param  workspaceId: string or none, queryTaskList: {all?: string;category?: string;stream_id?: string;} or none
+   * @returns TaskQueueListRes
+   */
+  public async getTaskQueueList(workspaceId?: string, queryTaskList?: QueryTaskList): Promise<TaskQueueListRes>
+```
+
+> Successful response schema
+
+```json
+    { 
+      "taskQueueList": {}, 
+      "error": undefined 
+    }
+```
+
+- ### usage (tsx next)
+```tsx
+    import {createClient} from '@hexabase/hexabase-js';
+
+    const baseUrl = process.env.BASE_URL;
+    const user = JSON.parse(localStorage.getItem('user'));
+    const hexabase = await createClient({ url: baseUrl, token: user.token})
+    const [workspaceCurrent, setWorkspaceCurrent] = useState([] as WorkspacesRes[]);
+
+    useEffect(() =>
+    {
+      hexabase.workspaces.getTaskQueueList().then(resp => setWorkspaces(resp.taskQueueList));
+      return;
+    }, []);
+```
+
+### - getTaskQueueStatus()
+
+```ts
+  /**
+   * function getTaskQueueStatus: get task queue status
+   * @param  taskId and workspaceId are required
+   * @returns TaskQueueListRes
+   */
+  public async getTaskQueueStatus(taskId: string, workspaceId: string): Promise<TaskQueueStatusRes>
+```
+
+> Successful response schema
+
+```json
+    { 
+      "taskQueueStatus": {
+      "qt_id": "string",
+      "category": "string",
+      "status": {
+        "id": "string",
+        "name": "string",
+      },
+      "created_at": "string",
+      "started_at": "string",
+      "finished_at": "string",
+      "metadata": {
+        "w_id": "string",
+      },
+    }, 
+      "error": undefined 
+    }
+```
+
+- ### usage (tsx next)
+```tsx
+    import {createClient} from '@hexabase/hexabase-js';
+
+    const baseUrl = process.env.BASE_URL;
+    const workspaceId = process.env.WORKSPACEID;
+    const taskId = process.env.TASKID;
+    const user = JSON.parse(localStorage.getItem('user'));
+    const hexabase = await createClient({ url: baseUrl, token: user.token})
+    const [workspaceCurrent, setWorkspaceCurrent] = useState([] as WorkspacesRes[]);
+
+    useEffect(() =>
+    {
+      hexabase.workspaces.getTaskQueueStatus(taskId, workspaceId).then(resp => setWorkspaces(resp.taskQueueStatus));
+      return;
+    }, []);
 ```
