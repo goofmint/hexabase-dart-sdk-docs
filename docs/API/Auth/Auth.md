@@ -15,7 +15,7 @@ get() //  get infomation user by token
 ```tsx
   /** login user
    * @param  {LoginPayload} loginInput
-   * @returns Promise
+   * @returns LoginRes
    */
   public async  login(loginInput: LoginPayload): Promise<LoginRes>
 ```
@@ -41,7 +41,7 @@ get() //  get infomation user by token
 ```tsx
   /** logout user
    * @param  {string} token
-   * @returns Promise
+   * @returns ModelRes
    */
   public async logout(token: string): Promise<ModelRes>
 ```
@@ -50,7 +50,10 @@ get() //  get infomation user by token
 
 ```json
   {
-    "data" : "data",
+    "data" : {
+      "success": "boolean",
+      "data": "string",
+    },
     "error": undefined
   }
 ```
@@ -69,10 +72,10 @@ get user informations
 
 ```ts
   /**
-   * return user basic informations
-   * @returns Promise
+   * function get: get user info by token
+   * @returns UserInfoRes
    */
-  public async get(): Promise<UserInfoRes>
+  public async get(token: string): Promise<UserInfoRes>
 ```
 
 > Successful return Schema 
@@ -82,18 +85,20 @@ get user informations
   "username": "string",
   "email": "string",
   "profile_pic": "string",
+  "u_id": "string",
   "current_workspace_id": "string",
   "is_ws_admin": true,
   "user_roles": [
     {
-      "rid": "string",
+      "r_id": "string",
       "role_name": "string",
-      "role_display_id": "string",
-      "pid": "string",
-      "app_display_id": "string",
-      "app_name": "string",
-      "app_display_order": 0
-    }
+      "role_id": "string",
+      "p_id": "string",
+      "application_id": "string",
+      "application_name": "string",
+      "application_display_order": "string",
+    },
+    ...
   ]
 }
 ```
@@ -103,17 +108,17 @@ get user informations
   import {createClient} from '@hexabase/hexabase-js';
   const baseUrl = process.env.BASE_URL;
   const user = JSON.parse(localStorage.getItem('user'));
-
+  const token = 'xxxxxxxxxx.xxxxxxxxxxxx.xxxxxxxxxxxx';
   const [userInfo, setUserInfo] = useState({} as UserInfo);
 
-  async function getUser() {
-    const {userInfo, error} = await hexabase.users.get();
+  async function getUser(token: string) {
+    const {userInfo, error} = await hexabase.users.get(token);
     return userInfo;
   }
 
   useEffect(() =>
   {
-    const userInfo = getUser();
+    const userInfo = getUser(token);
     if(userInfo) {
       setUserInfo(userInfo);
     }

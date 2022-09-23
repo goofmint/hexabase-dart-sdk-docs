@@ -19,7 +19,7 @@ npm i @hexabase/hexabase-js
 * user credentials ***must obtain from hexabase***
 
 ```json
-  #url require: https://hxb-graph.hexabase.com/graphql\
+  #url require: https://xxxxx.xxx/xxx/
   
   #options_1
   {

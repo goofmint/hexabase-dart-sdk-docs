@@ -10,6 +10,14 @@ In `Workspace` will have functions:
 get() // get workspaces
 create() // created workspace
 setCurrent() // set current workspace by id
+setCurrent() // set the current user workspace by workspace_id
+getCurrent() // get workspaces id current
+getPasswordPolicy() // get workspace password policy
+getFunctionality() // get workspace functionality
+getUsage() // get workspace usage
+getGroupChildren() // get workspace children in group
+getTaskQueueList() // get queue list
+getTaskQueueStatus() // get task queue status
 ```
 
 ### - get()
@@ -193,7 +201,7 @@ setCurrent() // set current workspace by id
 ```ts
   /**
    * function getPasswordPolicy: get workspace password policy
-   * @param  workspaceId: string
+   * @param {string} workspaceId
    * @returns WsPasswordPolicyRes
    */
   public async getPasswordPolicy(workspaceId: string): Promise<WsPasswordPolicyRes>
@@ -243,7 +251,7 @@ setCurrent() // set current workspace by id
 ```ts
   /**
    * function getFunctionality: get workspace functionality
-   * @param  workspaceId: string
+   * @param {string} workspaceId
    * @returns WsPasswordPolicyRes
    */
   public async getPasswordPolicy(workspaceId: string): Promise<WsPasswordPolicyRes>
@@ -294,7 +302,7 @@ setCurrent() // set current workspace by id
 ```ts
   /**
    * function getUsage: get workspace usage
-   * @param  workspaceId: string
+   * @param {string} workspaceId
    * @returns WsUsageRes
    */
   public async getUsage(workspaceId: string): Promise<WsUsageRes>
@@ -343,7 +351,7 @@ setCurrent() // set current workspace by id
 ```ts
   /**
    * function getGroupChildren: get workspace children in group
-   * @param  workspaceId: string
+   * @param {string} workspaceId
    * @returns WsGroupChildrenRes
    */
   public async getGroupChildren(workspaceId: string): Promise<WsGroupChildrenRes>
@@ -390,7 +398,7 @@ setCurrent() // set current workspace by id
 ```ts
   /**
    * function getTaskQueueList: get queue list
-   * @param  workspaceId: string or none, queryTaskList: {all?: string;category?: string;stream_id?: string;} or none
+   * @param {string} workspaceId or none, {QueryTaskList}: queryTaskList or none
    * @returns TaskQueueListRes
    */
   public async getTaskQueueList(workspaceId?: string, queryTaskList?: QueryTaskList): Promise<TaskQueueListRes>
@@ -426,7 +434,7 @@ setCurrent() // set current workspace by id
 ```ts
   /**
    * function getTaskQueueStatus: get task queue status
-   * @param  taskId and workspaceId are required
+   * @param  {string} taskId and {string} workspaceId are required
    * @returns TaskQueueListRes
    */
   public async getTaskQueueStatus(taskId: string, workspaceId: string): Promise<TaskQueueStatusRes>
