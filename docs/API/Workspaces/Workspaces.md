@@ -5,66 +5,148 @@ title: Hexabase.Workspaces
 ### <mark>Workspace</mark>
 We start by getting, and setting our App workspaces using the the below API. after getting the list of workspaces, we can choose which one to work to display our projects, datastores, and so on.
 
-### getWorkspacesAsync()
+In `Workspace` will have functions:
+```bash
+get() // get workpsaces
+create() // set current workpace by id
+setCurrent() // set current workpace by id
+```
 
-> we could get all available user workspaces from hexabase to start working on with listing our projects, and datastores, then data items.
-
+### - get()
 ```ts
-    /**
-     * get workspaces list
-     * @returns Promise
-     */
-    public async getWorkspacesAsync(): Promise<WorkspaceResp>
+ /**
+   * function getWorkspacesAsync: get workspaces and current workspace id
+   * @returns WorkspacesRes
+   */
+  public async get(): Promise<WorkspacesRes>
 ```
 
 > Successful response Schema
 
 ```json
 {
-  "workspaces": [
-    {
-      "archived": true,
-      "w_id": "string",
-      "name": "string",
-      "created_at": "2020-10-14T17:01:07.643Z",
-      "updated_at": "2020-10-14T17:01:07.643Z"
-    }
-  ],
-  "current_workspace_id": "string"
+  "workspaces": {
+    "workspaces": [
+      {
+        "workspace_name": "620e2780bb0b83cfd6b831f6",
+        "workspace_id": "620f5774bb0b83cfd6b83d8f"
+      },
+      {
+        "workspace_name": "Test_run_linker_api",
+        "workspace_id": "624ac2f3cbb42c82793c10e6"
+      },
+      {
+        "workspace_name": "new Workspace",
+        "workspace_id": "624bc3cfa72c942744ee6635"
+      }
+    ],
+    "current_workspace_id": "624ac2f3cbb42c82793c10e6"
+  },
+  "error": undefined
 }
 ```
 
-> Usages in TSX
+- ### usage (tsx next)
+```tsx
+  import {createClient} from '@hexabase/hexabase-js';
+  const baseUrl = process.env.BASE_URL;
+  const user = JSON.parse(localStorage.getItem('user'));
 
-```jsx
-    import {Hexabase} from 'hexabase-sdk';
+  const hexabase = await createClient({ url: baseUrl, token: user.token})
 
 
-    const [workspaces, setWorkspaces] = useState([] as Workspaces[]);
+  const [workspaces, setWorkspaces] = useState([] as WorkspacesRes[]);
 
-    useEffect(() =>
-    {
-        Hexabase.workspaces().getWorkspacesAsync().Result().then(resp => setWorkspaces(resp.workspaces));
+  useEffect(() =>
+  {
+    hexabase.workspaces.get().then(resp => setWorkspaces(resp.workspaces));
 
-        return;
-    }, []);    
+    return;
+  }, []);    
 ```
 
-### setCurrentWorkspace()
-
-> if we want to select or switch workspaces, we set user current workspace using this API. this allows us to switch view workspaces, projects, and datastores.
+### - create()
 
 ```ts
-    /**
-     * set the current user workspace by workspace_id
-     * @param  {SetWorkspaceReq} setWorkspaceReq
-     * @returns Promise
-     */
-    public async setCurrentWorkspace(setWorkspaceReq: SetWorkspaceReq): Promise<object>
+  /**
+   * function create: created workspace
+   * @param: createWorkSpaceInput: {name}
+   * @returns WorkspaceIDRes
+   */
+  async create(createWsInput: CreateWsInput): Promise<WorkspaceIDRes>
+```
+
+> Successful response Schema
+
+```json
+{
+  "w_id": "624ac2f3cbb42c82793c10e6",
+  "error": undefined
+}
+```
+
+- ### usage (tsx next)
+```tsx
+  import {createClient} from '@hexabase/hexabase-js';
+  const baseUrl = process.env.BASE_URL;
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  const hexabase = await createClient({ url: baseUrl, token: user.token})
+  const [workspace, setWorkspace] = useState([] as string);
+  const createWsInput = {
+    name: "name";
+  }
+  useEffect(() =>
+  {
+    hexabase.workspaces.create(createWsInput).then(resp => setWorkspace(resp.w_id));
+
+    return;
+  }, []);    
+```
+
+### - setCurrent()
+
+```ts
+  /**
+   * set the current user workspace by workspace_id
+   * @param  {SetWsInput} SetWsInput: include workspace_id
+   * @returns Promise
+   */
+  public async setCurrent(setCurrentWsPl: SetWsInput): Promise<ModelRes>
 ```
 
 > Successful response schema
 
 ```json
-null
+  {
+    "data": {
+      "success": true,
+    },
+    "error": undefined,
+  }
+```
+
+
+- ### usage (tsx next)
+```tsx
+    import {createClient} from '@hexabase/hexabase-js';
+    const baseUrl = process.env.BASE_URL;
+    const user = JSON.parse(localStorage.getItem('user'));
+    const setCurrentWsPl = {
+      workspace_id: workspaceIdSet
+    }
+    const hexabase = await createClient({ url: baseUrl, token: user.token})
+
+    const [workspaceCurrent, setWorkspaceCurrent] = useState([] as WorkspacesRes[]);
+
+    useEffect(() =>
+    {
+      hexabase.workspaces.setCurrent(setCurrentWsPl).then(resp => {
+        if(resp.data.success) {
+          setWorkspaceCurrent(setCurrentWsPl.workspace_id);
+        }
+      });
+
+      return;
+    }, []);    
 ```

@@ -10,15 +10,11 @@ module.exports = {
                 , 'API/Users/Users'
                 , 'API/Datastores/Datastores'
                 , 'API/Items/Items'
-                , 'API/Actions/Actions'
+                , 'API/Auth/Auth'
             ],
         'Best Practices': [
             'Best Practices/BasicTutorial'
-            , 'Best Practices/Reactjs_typescript'
-            , 'Best Practices/PersonalCost'
-            , 'Best Practices/realtimeChat'
+            , 'Best Practices/Nextjs_typescript'
         ],
-        Docusaurus: ['doc1', 'doc2', 'doc3', 'Hexabase/test'],
-        Features: ['mdx'],
     },
 };

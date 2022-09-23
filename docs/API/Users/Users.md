@@ -2,99 +2,57 @@
 title: Hexabase.Users
 ---
 
-### hexabaseLoginAsync()
-#### [WIP]
-```tsx
-    /**
-     * @param  {HexabaseConfig} payload
-     * @returns Promise
-     */
-    public async hexabaseLoginAsync(payload: HexabaseConfig): Promise<UsersLoginResp>
-```
-> Usages
-```tsx
-var respToken = await this.auth.hexabaseLoginAsync({ "email": "j.soliva@hexabase.com", "password": "123456" });
+In `User` will have functions:
+```bash
+register() // get user register info by confirmationId
 ```
 
-### loginAsync()
-#### [WIP]
-`loginAsync` is the basic api that auth user credentials, return a json `{"token": "fdsafasfsa2313131"}` that you can use to store JWT token
-```tsx
-    /**
-     * @param  {UsersLoginReq} payload
-     * @returns Promise
-     */
-    public async loginAsync(payload: UsersLoginReq): Promise<UsersLoginResp>
-```
-> Usages
-```tsx
-    var auth = new Auth();
-    var respToken = await auth.loginAsync({ email: 'j.soliva@b-eee.com', password: '123456' });
-    HxbSessionStorage.Write('token', respToken.token);
-```
-
-### userInfoAsync()
-
-get user informations
+### - register()
 
 ```ts
-    /**
-     * return user basic informations
-     * @returns Promise
-     */
-    public async userInfoAsync(): Promise<UserInfoResp>
+/**
+ * function userRegisterAsync: get user register info by confirmationId
+ * @param confirmationId
+ * @returns UserRegisterRes
+ */
+public async register(confirmationId: string): Promise<UserRegisterRes>
 ```
 
 > Successful return Schema 
 ```json
 {
-  "uid": "string",
-  "username": "string",
-  "email": "string",
-  "profile_pic": "string",
-  "current_workspace_id": "string",
-  "is_ws_admin": true,
-  "user_roles": [
-    {
-      "rid": "string",
-      "role_name": "string",
-      "role_display_id": "string",
-      "pid": "string",
-      "app_display_id": "string",
-      "app_name": "string",
-      "app_display_order": 0
+  "userRegister": {
+    "username": "username",
+    "isElapsed": true,
+    "id": "id",
+    "email_confirmed": true,
+    "email": "email",
+    "confirmed": true,
+    "confirmation_id": "confirmation_id",
+  },
+  "error": undefined
+}
+```
+
+- ### usage (tsx next)
+```ts
+  import {createClient} from '@hexabase/hexabase-js';
+  const baseUrl = process.env.BASE_URL;
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  const [userRegister, setUserRegister] = useState({} as UserRegister);
+
+  async function getUserInfo(confirmationId: string) {
+    const {userRegister, error} = await hexabase.users.register(confirmationId);
+    return userRegister;
+  }
+
+  useEffect(() =>
+  {
+    const userRes = getUserInfo(confirmationId);
+    if(userRes) {
+      setUserRegister(userRes);
     }
-  ]
-}
-```
-
-- ### usage
-```ts
-    let userInfo = await Hexabase.users().userInfoAsync();
-```
-
-### getTokenAsync()
-get temporary token
-
-```ts
-    /**
-     * get temporary token
-     * @returns Promise
-     */
-    public async getTokenAsync(): Promise<UsersLoginResp>
-```
-
-> Successful return schema
-
-```json
-{
-  "token": "string"
-}
-```
-
-
-- ### usage
-```ts
-    var auth = new Auth();
-    var tokenResp = await auth.getTokenAsync();
+    return;
+  }, []);
 ```

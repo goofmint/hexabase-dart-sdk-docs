@@ -2,7 +2,7 @@ module.exports = {
   title: 'Hexabase SDK',
   tagline: 'Typescript SDK for Hexabase API',
   url: 'https://b-eee.github.io',
-  baseUrl: '/hexabase-sdk-docs/',
+  baseUrl: '/',
   onBrokenLinks: 'ignore',
   favicon: 'img/favicon.ico',
   organizationName: 'b-eee', // Usually your GitHub org/user name.
@@ -16,7 +16,7 @@ module.exports = {
       },
       items: [
         {
-          to: 'installation',
+          to: 'docs/Hexabase/Installation',
           activeBasePath: 'docs',
           label: 'Docs',
           position: 'left',
@@ -70,6 +70,7 @@ module.exports = {
       ],
       copyright: `Copyright © ${new Date().getFullYear()} Hexabase-SDK. Built with Docusaurus.`,
     },
+    
   },
   presets: [
     [
