@@ -4,7 +4,7 @@ sidebar_label: 'Installation'
 ---
 
 
-
+## Install @hexabase/hexabase-js
 
 `@hexabase/hexabase-js` is essentially npm package, you can install it by `npm`
 
@@ -19,6 +19,8 @@ npm i @hexabase/hexabase-js
 * user credentials ***must obtain from hexabase***
 
 ```json
+  #url require: https://xxxxx.xxx/xxx/
+  
   #options_1
   {
     "email": "j.soliva@hexabase.com",

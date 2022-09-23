@@ -8,11 +8,64 @@ Applications further lists down all essential groups of data stores available fo
 
 In `Application` will have functions:
 ```bash
-getProjectsAndDatastores() // get applications and datastores list
+get() // get info project
 create() // create a application
 getReports() // get reports in project
+getDataReport() // get data of report
+getProjectsAndDatastores() // get applications and datastores list
 ```
 
+### - get()
+
+```ts
+  /**
+   * function get: get info project
+   * @params {string} projectId
+   * @returns ReportDataRes
+   */
+  public async get(projectId: string): Promise<ProjectInfoRes>
+```
+
+> Successful response Schema
+
+```json
+  {
+    "project" : {
+        "display_id":"APP-F0q0adpa",
+        "display_order":0,
+        "name":"CREATE_PROJECT.DEFAULT_PJ_NAME",
+        "p_id":"624ac2f3cbb42c82793c10e9",
+        "template_id":"",
+        "w_id":null,
+    },
+    "error": undefined
+  }
+```
+
+- ### usage (tsx next)
+```ts
+  import {createClient} from '@hexabase/hexabase-js';
+    const baseUrl = process.env.BASE_URL;
+    const user = JSON.parse(localStorage.getItem('user'));
+    const [project, setProject] = useState({} as [ReportListItem]);
+
+    const hexabase = await createClient({ url: baseUrl, token: user.token});
+
+    async function getInfoProject(projectId: string) {
+      const {project, error} = await application.get(projectId);
+      return project;
+    }
+
+    useEffect(() =>
+    {
+      const projectId = "1234567890";
+      const project = getReportsProject(projectId);
+      if(project) {
+        setReportsProject(reports)
+      }
+      return;
+    }, []); 
+```
 
 ### - getProjectsAndDatastores()
 
@@ -39,8 +92,6 @@ getReports() // get reports in project
         "datastores": [
           {
             "datastore_id": "string",
-            "did": "string",
-            "display_id": "string",
             "name": "string"
           },
           ....
@@ -70,6 +121,9 @@ getReports() // get reports in project
     {
       const workspaceId = '12345678';
       const appAndDs = getAppAndDs(workspaceId);
+      if (appAndDs && appAndDs.length > 0) {
+        setAppDs(appAndDs);
+      }
       return;
     }, []); 
 ```
@@ -172,7 +226,7 @@ getReports() // get reports in project
     {
       const projectId = "projectId";
       const reports = getReportsProject(projectId);
-      if(reports) {
+      if(reports && reports.length > 0) {
         setReportsProject(reports)
       }
       return;
@@ -184,7 +238,7 @@ getReports() // get reports in project
 ```ts
 /**
 * function getDataReport: get data report by report id in project
-* @params projectId, reportId, reportDataPayload
+* @params {string} projectId, {string} reportId, {ReportDataPayload} reportDataPayload or none
 * @returns ReportDataRes
 */
 public async getDataReport(projectId: string, reportId: string, reportDataPayload?: ReportDataPayload): Promise<ReportDataRes> 
@@ -205,13 +259,11 @@ public async getDataReport(projectId: string, reportId: string, reportDataPayloa
       "merge_cells": null,
       "report_results": [
         {
-          "19548cc5-f49b-4758-abb8-4aa985895d82": "Female",
-          "54e62c95-2d72-4bc8-8cb3-44aa32a92524": "Sheilah",
-          "782e18ba-6ea5-4586-8c74-cc3bd3e43f04": "2",
-          "8d42da06-899c-42ae-8314-44bcae94c951": "sleheude1@creativecommons.org",
-          "eb03642b-94a0-4b2f-a806-de91e94d3f01": "210.78.208.110",
-          "f8120af7-2018-4656-af6c-a311ef4ee736": "Leheude"
+          "1983747a-119d-42f8-9070-fea451126cbb": "Dungdeptrai",
+          "i_id": "62a2a46c1701d2fab0a83baa",
+          "rev_no": 1
         },
+        ...
       ],
       "report_fields": [
         {
@@ -238,6 +290,7 @@ public async getDataReport(projectId: string, reportId: string, reportDataPayloa
           "use_integrated_report": false,
           "is_cross_key": false
         },
+        ...
       ]
       },
     "error": undefined
@@ -253,7 +306,7 @@ public async getDataReport(projectId: string, reportId: string, reportDataPayloa
 
     const hexabase = await createClient({ url: baseUrl, token: user.token});
 
-    async function getReportData(projectId: string, reportId: string, reportDataPayload: ReportDataPayload) {
+    async function getReportData(projectId: string, reportId: string, reportDataPayload?: ReportDataPayload) {
       const { dataReport, error } = await hexabase.applications.getDataReport(projectId, reportId, reportDataPayload);
       return dataReport;
     }
@@ -263,20 +316,20 @@ public async getDataReport(projectId: string, reportId: string, reportDataPayloa
       const projectId = "projectId";
       const reportId = "reportId";
       const reportDataPayload = {
-        "per_page": null,
-        "page": null,
-        "include_date_at": null,
-        "include_lookups": null,
-        "include_item_ref": null,
-        "return_number_value": null,
-        "return_id_value_results": null,
-        "return_count_only": null,
-        "return_utc_datetime": null,
-        "omit_total_items": null,
-        "total_count_timeout_sec": null,
-        "data_result_timeout_sec": null,
-        "debug_query": null
-      }
+        "per_page": number,
+        "page": number,
+        "include_date_at": boolean,
+        "include_lookups": boolean,
+        "include_item_ref": boolean,
+        "return_number_value": boolean,
+        "return_id_value_results": boolean,
+        "return_count_only": boolean,
+        "return_utc_datetime": boolean,
+        "omit_total_items": boolean,
+        "total_count_timeout_sec": number,
+        "data_result_timeout_sec": number,
+        "debug_query": boolean
+      } // or none
       const dataReport = getReportData(projectId, reportId, reportDataPayload);
       if(dataReport) {
         setReportDt(dataReport)
