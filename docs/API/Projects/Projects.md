@@ -1,18 +1,18 @@
 ---
-title: Hexabase.Applications
+title: Hexabase.Projects
 ---
 
-### <mark>Applications</mark>
-Applications further lists down all essential groups of data stores available for use to use in managing data.
+### <mark>Project</mark>
+Project further lists down all essential groups of data stores available for use to use in managing data.
 
 
-In `Application` will have functions:
+In `Project` will have functions:
 ```bash
 get() // get info project
-create() // create a application
+create() // create a Project
 getReports() // get reports in project
 getDataReport() // get data of report
-getProjectsAndDatastores() // get applications and datastores list
+getProjectsAndDatastores() // get Project and datastores list
 ```
 
 ### - get()
@@ -69,11 +69,11 @@ getProjectsAndDatastores() // get applications and datastores list
 
 ### - getProjectsAndDatastores()
 
-> get all user workspace applications and datastores list
+> get all user workspace Project and datastores list
 
 ```ts
   /**
-   * get workspace applications and datastores list
+   * get workspace Project and datastores list
    * @param  {string} workspaceId
    * @returns Promise
    */
@@ -132,7 +132,7 @@ getProjectsAndDatastores() // get applications and datastores list
 
 ```ts
   /**
-   * create application in current workspace
+   * create Project in current workspace
    * @param  {CreateProjectPl} createProjectParams
    * @returns Promise
    */
@@ -333,6 +333,168 @@ public async getDataReport(projectId: string, reportId: string, reportDataPayloa
       const dataReport = getReportData(projectId, reportId, reportDataPayload);
       if(dataReport) {
         setReportDt(dataReport)
+      }
+      return;
+    }, []); 
+```
+
+### - updateProjectTheme()
+
+```ts
+  /**
+   * function updateProjectTheme: update project theme in workspace
+   * @params {UpdateProjectThemePl} payload is requirement
+   * @returns ModelRes
+  */
+  public updateProjectTheme(payload: UpdateProjectThemePl): Promise<ModelRes>
+```
+
+> Successful response Schema
+
+```json
+  {
+    "data" : {
+      "success": "boolean",
+      "data": "string",
+    },
+    "error": undefined
+  }
+```
+
+- ### usage (tsx next)
+```ts
+  import {createClient} from '@hexabase/hexabase-js';
+    const baseUrl = process.env.BASE_URL;
+    const user = JSON.parse(localStorage.getItem('user'));
+    const [data, setData] = useState({} as [UpdateProjectTheme]);
+
+    const hexabase = await createClient({ url: baseUrl, token: user.token});
+
+    async function updateProjectTheme(payload: UpdateProjectThemePl) {
+      const { data, error } = await hexabase.applications.updateProjectTheme(payload);
+      return data;
+    }
+
+    useEffect(() =>
+    {
+      const payload: UpdateProjectThemePl = {
+        payload: {
+            project_id: "project_id",
+            theme: "theme", // theme includes "blue" | "white" | "gray" | "black";
+          }
+      };
+      const data = updateProjectTheme(payload);
+      if (data) {
+        setData(data);
+      }
+      return;
+    }, []); 
+```
+
+### - updateProjectName()
+
+```ts
+  /**
+   * function updateProjectName: update project name in workspace
+   * @params {UpdateProjectNamePl} payload is requirement
+   * @returns ModelRes
+  */
+  public updateProjectName(payload: UpdateProjectNamePl): Promise<ModelRes>
+```
+
+> Successful response Schema
+
+```json
+  {
+    "data" : {
+      "success": "boolean",
+      "data": "string",
+    },
+    "error": undefined
+  }
+```
+
+- ### usage (tsx next)
+```ts
+  import {createClient} from '@hexabase/hexabase-js';
+    const baseUrl = process.env.BASE_URL;
+    const user = JSON.parse(localStorage.getItem('user'));
+    const [data, setData] = useState({} as [UpdateProjectName]);
+
+    const hexabase = await createClient({ url: baseUrl, token: user.token});
+
+    async function updateProjectName(payload: UpdateProjectNamePl) {
+      const { data, error } = await hexabase.applications.updateProjectName(payload);
+      return data;
+    }
+
+    useEffect(() =>
+    {
+      const payload: UpdateProjectNamePl = {
+        payload: {
+          project_id: "project_id",
+          project_displayid: "project_displayid",
+          project_name: {
+            en: "pj_name001",
+            ja: "pj_name001",
+          },
+        }
+      }
+      const data = updateProjectName(payload);
+      if (data) {
+        setData(data);
+      }
+      return;
+    }, []); 
+```
+
+### - delete()
+
+```ts
+  /**
+   * function delete: delete project in workspace
+   * @params {DeleteProjectPl} payload is requirement
+   * @returns ModelRes
+  */
+  public delete(payload: DeleteProjectPl): Promise<ModelRes>
+```
+
+> Successful response Schema
+
+```json
+  {
+    "data" : {
+      "success": "boolean",
+      "data": "string",
+    },
+    "error": undefined
+  }
+```
+
+- ### usage (tsx next)
+```ts
+  import {createClient} from '@hexabase/hexabase-js';
+    const baseUrl = process.env.BASE_URL;
+    const user = JSON.parse(localStorage.getItem('user'));
+    const [data, setData] = useState({} as [DeleteProject]);
+
+    const hexabase = await createClient({ url: baseUrl, token: user.token});
+
+    async function delete(payload: UpdateProjectNamePl) {
+      const { data, error } = await hexabase.applications.delete(payload);
+      return data;
+    }
+
+    useEffect(() =>
+    {
+      const payload: DeleteProjectPl = {
+        payload: {
+          project_id: "project_id",
+        }
+      };
+      const data = delete(payload);
+      if (data) {
+        setData(data);
       }
       return;
     }, []); 

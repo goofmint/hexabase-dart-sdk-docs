@@ -6,7 +6,7 @@ module.exports = {
             'Hexabase/Configuration'],
         'API': [
                 'API/Workspaces/Workspaces'
-                , 'API/Applications/Applications'
+                , 'API/Projects/Projects'
                 , 'API/Users/Users'
                 , 'API/Datastores/Datastores'
                 , 'API/Items/Items'
