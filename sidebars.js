@@ -11,10 +11,12 @@ module.exports = {
                 , 'API/Datastores/Datastores'
                 , 'API/Items/Items'
                 , 'API/Auth/Auth'
+                , 'API/DataReport/DataReport'
             ],
         'Best Practices': [
             'Best Practices/BasicTutorial'
             , 'Best Practices/Nextjs_typescript'
+            , 'Best Practices/Nuxtjs_typescript'
         ],
     },
 };
