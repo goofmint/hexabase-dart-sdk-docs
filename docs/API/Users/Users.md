@@ -7,6 +7,66 @@ In `User` will have functions:
 register() // get user register info by confirmationId.
 userConfirm() //get info user confirm by confirmationId.
 getPasswordExpire() //check user password is expiry.
+get() // get user info by token
+```
+
+### - get()
+
+get user informations
+
+```ts
+  /**
+   * function get: get user info by token
+   * @returns UserInfoRes
+   */
+  public async get(token: string): Promise<UserInfoRes>
+```
+
+> Successful return Schema 
+```json
+{
+  "u_id": "string",
+  "username": "string",
+  "email": "string",
+  "profile_pic": "string",
+  "current_workspace_id": "string",
+  "is_ws_admin": "boolean",
+  "user_roles": [
+    {
+      "r_id": "string",
+      "role_name": "string",
+      "role_id": "string",
+      "p_id": "string",
+      "application_id": "string",
+      "application_name": "string",
+      "application_display_order": "string",
+    },
+    ...
+  ]
+}
+```
+
+- ### usage (tsx next)
+```ts
+  import {createClient} from '@hexabase/hexabase-js';
+  const baseUrl = process.env.BASE_URL;
+  const user = JSON.parse(localStorage.getItem('user'));
+  const token = 'xxxxxxxxxx.xxxxxxxxxxxx.xxxxxxxxxxxx';
+  const [userInfo, setUserInfo] = useState({} as UserInfo);
+
+  async function getUser(token: string) {
+    const {userInfo, error} = await hexabase.users.get(token);
+    return userInfo;
+  }
+
+  useEffect(() =>
+  {
+    const userInfo = getUser(token);
+    if(userInfo) {
+      setUserInfo(userInfo);
+    }
+    return;
+  }, []);
 ```
 
 ### - register()
