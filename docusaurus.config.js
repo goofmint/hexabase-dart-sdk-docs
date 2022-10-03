@@ -1,74 +1,96 @@
 module.exports = {
   title: 'Hexabase SDK',
   tagline: 'Typescript SDK for Hexabase API',
-  url: 'https://b-eee.github.io',
+  url: 'https://sdk-docs.hexabase.com',
   baseUrl: '/',
   onBrokenLinks: 'ignore',
   favicon: 'img/favicon.ico',
-  organizationName: 'b-eee', // Usually your GitHub org/user name.
+  organizationName: 'hexabase', // Usually your GitHub org/user name.
   projectName: 'hexabase-sdk-docs', // Usually your repo name.
   themeConfig: {
+    colorMode: {
+      defaultMode: 'light',
+      disableSwitch: true,
+    },
     navbar: {
       title: 'Hexabase SDK',
       logo: {
-        alt: 'My Site Logo',
-        src: 'img/logo.svg',
+        alt: 'Hexabase',
+        src: 'img/logo.png',
       },
       items: [
         {
-          to: 'docs/Hexabase/Installation',
+          to: 'docs',
           activeBasePath: 'docs',
           label: 'Docs',
           position: 'left',
         },
-        {to: 'blog', label: 'Blog', position: 'left'},
         {
-          href: 'https://github.com/b-eee/hexabase-sdk-docs',
+          href: 'https://github.com/hexabase/hexabase-js',
           label: 'GitHub',
           position: 'right',
         },
       ],
     },
     footer: {
-      style: 'dark',
       links: [
         {
-          title: 'API Docs',
+          title: 'Documents',
           items: [
             {
-              label: 'Redoc',
-              to: 'https://az-lk.hexabase.com/redoc/index.html?url=/swagger/v1/swagger.json',
+              label: 'Introduction',
+              to: '/docs',
             },
             {
-              label: 'Swagger',
-              to: 'https://az-lk.hexabase.com/swagger/index.html',
+              label: 'API',
+              to: '/docs/API/Workspaces/Workspaces',
             },
           ],
         },
         {
-          title: 'Community',
+          title: 'Resources',
           items: [
             {
-              label: 'Discourse (Community Site)',
+              label: 'Developer Guide',
+              href: 'https://devdoc.hexabase.com/',
+            },
+            {
+              label: 'API',
+              href: 'https://apidoc.hexabase.com/',
+            },
+            {
+              label: 'CLI',
+              href: 'https://www.npmjs.com/package/hexabase-cli',
+            },
+          ],
+        },
+        {
+          title: 'Hexabase',
+          items: [
+            {
+              label: 'Service',
+              href: 'https://www.hexabase.com/',
+            },
+            {
+              label: 'News',
+              href: 'https://www.hexabase.com/news/',
+            },
+            {
+              label: 'Community',
               href: 'https://community.hexabase.com/',
-            },
-          ],
-        },
-        {
-          title: 'Company',
-          items: [
-            {
-              label: 'Blog',
-              to: 'blog',
             },
             {
               label: 'Company',
-              href: 'https://www.hexabase.com/',
+              href: 'https://www.hexabase.com/our-company/',
+            },
+            {
+              label: 'Contact',
+              href: 'https://www.hexabase.com/contact-us/',
             },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Hexabase-SDK. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Hexabase, Inc.`,
     },
     
   },
