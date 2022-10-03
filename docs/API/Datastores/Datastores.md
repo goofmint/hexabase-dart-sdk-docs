@@ -10,6 +10,7 @@ In `Datastore` will have functions:
 getActions() // get actions in datastore
 getStatuses() // get statuses in datastore
 getField() // get field setting in datastore
+getAction() //get field action setting in datastore
 ```
 
 ### - getField()
@@ -17,7 +18,7 @@ getField() // get field setting in datastore
 ```ts
  /**
    * function getField: get field setting in Ds
-   * @params fieldId and datastoreId are requirement
+   * @params {string} fieldId and {string} datastoreId are requirement
    * @returns DsFieldSettingsRes
    */
   public async getField(fieldId: string, datastoreId: string): Promise<DsFieldSettingsRes> 
@@ -76,15 +77,15 @@ getField() // get field setting in datastore
   const [field, setField] = useState({} as DsFieldSettings);
 
   async function getFieldSetting(dsId) {
-    const {dsActions, error} = await hexabase.datastores.getField(fieldId, datastoreId);
-    return dsActions;
+    const {dsField, error} = await hexabase.datastores.getField(fieldId, datastoreId);
+    return dsField;
   }
 
   useEffect(() =>
   {
-    const fSetting = getFieldSetting(fieldId, datastoreId);
-    if (fSetting) {
-      setField(fSetting)
+    const dsField = getFieldSetting(fieldId, datastoreId);
+    if (dsField) {
+      setField(dsField)
     }
     return;
   }, []); 
@@ -94,9 +95,9 @@ getField() // get field setting in datastore
 
 ```ts
   /**
-   * get get actions in datastore
+   * function getActions: actions in datastore
    * @param  {string} datastoreId
-   * @returns Promise
+   * @returns DsActionRes
    */
     public async getActions(datastoreId: string): Promise<DsActionRes>
 ```
@@ -116,7 +117,8 @@ getField() // get field setting in datastore
         "operation": "string",
         "set_status": "string",
         "name": "string",
-      }
+      },
+      ...
     ],
   "error": undefined
 }
@@ -147,13 +149,13 @@ getField() // get field setting in datastore
 ```
 
 
-### getStatuses()
+### - getStatuses()
 
 ```ts
   /**
    * get get statuses in datastore
    * @param  {string} datastoreId
-   * @returns Promise
+   * @returns DsStatusRes
    */
   public async getStatuses(datastoreId: string): Promise<DsStatusRes>
 ```
@@ -186,7 +188,7 @@ getField() // get field setting in datastore
   const baseUrl = process.env.BASE_URL;
   const user = JSON.parse(localStorage.getItem('user'));
   const [dsStatus, setDsStatus] = useState({} as [DsStatus]);
-
+  const datastoreId = '1234567890';
   const hexabase = await createClient({ url: baseUrl, token: user.token});
 
   async function getStatuses(dsId) {
@@ -199,6 +201,77 @@ getField() // get field setting in datastore
     const statuses = getStatuses(datastoreId);
     if (statuses) {
       setDsStatus(statuses)
+    }
+    return;
+  }, []); 
+```
+
+### - getAction()
+
+```ts
+  /**
+   * function getAction: get field action setting in Ds
+   * @param  {string} datastoreId, {string} actionId
+   * @returns DsActionSettingRes
+   */
+  public async getAction(datastoreId: string, actionId: string): Promise<DsActionSettingRes>
+```
+
+> Successful response Schema
+
+```json
+  {
+    "dsAction" : [
+      {
+        "workspace_id": "string",
+        "project_id": "string",
+        "datastore_id": "string",
+        "action_id": "string",
+        "is_status_action": "boolean",
+        "display_id": "string",
+        "operation": "string",
+        "set_status": "string",
+        "name": {
+          "ja": "string",
+          "en": "string",
+        },
+        "roles": [
+          {
+            "can_execute": "boolean",
+            "can_use": "boolean",
+            "project_id": "string",
+            "type": "string",
+            "name": "string",
+            "display_id": "string",
+            "role_id": "string",
+          },
+          ...
+        ]
+      }
+    ],
+  "error": undefined
+}
+```
+
+- ### usage (tsx next)
+```ts
+  import {createClient} from '@hexabase/hexabase-js';
+  const baseUrl = process.env.BASE_URL;
+  const user = JSON.parse(localStorage.getItem('user'));
+  const [dsAction, setDsAction] = useState({} as [DsAction]);
+  const datastoreId = '1234567890';
+  const hexabase = await createClient({ url: baseUrl, token: user.token});
+
+  async function getAction(dsId) {
+    const {dsAction, error} = await hexabase.datastores.getAction(dsId);
+    return dsAction
+  }
+
+  useEffect(() =>
+  {
+    const dsAction = getAction(datastoreId);
+    if (dsAction) {
+      setDsStatus(dsAction)
     }
     return;
   }, []); 
