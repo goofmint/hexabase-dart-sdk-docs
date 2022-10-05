@@ -65,7 +65,7 @@ module.exports = {
           ],
         },
         {
-          title: 'Hexabase',
+          title: 'Company',
           items: [
             {
               label: 'Service',
@@ -80,7 +80,7 @@ module.exports = {
               href: 'https://community.hexabase.com/',
             },
             {
-              label: 'Company',
+              label: 'About us',
               href: 'https://www.hexabase.com/our-company/',
             },
             {
