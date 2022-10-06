@@ -9,15 +9,17 @@ In `Workspace` will have functions:
 ```bash
 get() // get workspaces
 create() // created workspace
+update() // update workspace settings
+getDetail() // get workspaces id current
 setCurrent() // set current workspace by id
-setCurrent() // set the current user workspace by workspace_id
-getCurrent() // get workspaces id current
+getCurrent() // get current id workspace
 getPasswordPolicy() // get workspace password policy
 getFunctionality() // get workspace functionality
 getUsage() // get workspace usage
 getGroupChildren() // get workspace children in group
 getTaskQueueList() // get queue list
 getTaskQueueStatus() // get task queue status
+
 ```
 
 ### - get()
@@ -36,19 +38,12 @@ getTaskQueueStatus() // get task queue status
   "workspaces": {
     "workspaces": [
       {
-        "workspace_name": "620e2780bb0b83cfd6b831f6",
-        "workspace_id": "620f5774bb0b83cfd6b83d8f"
+        "workspace_name": "string",
+        "workspace_id": "string"
       },
-      {
-        "workspace_name": "Test_run_linker_api",
-        "workspace_id": "624ac2f3cbb42c82793c10e6"
-      },
-      {
-        "workspace_name": "new Workspace",
-        "workspace_id": "624bc3cfa72c942744ee6635"
-      }
+      ...
     ],
-    "current_workspace_id": "624ac2f3cbb42c82793c10e6"
+    "current_workspace_id": "string"
   },
   "error": undefined
 }
@@ -88,7 +83,7 @@ getTaskQueueStatus() // get task queue status
 
 ```json
 {
-  "w_id": "624ac2f3cbb42c82793c10e6",
+  "w_id": "string",
   "error": undefined
 }
 ```
@@ -100,9 +95,9 @@ getTaskQueueStatus() // get task queue status
   const user = JSON.parse(localStorage.getItem('user'));
 
   const hexabase = await createClient({ url: baseUrl, token: user.token})
-  const [workspace, setWorkspace] = useState([] as string);
+  const [workspace, setWorkspace] = useState({} as Workspace);
   const createWsInput = {
-    name: "name";
+    name: "new workspace";
   }
   useEffect(() =>
   {
@@ -112,13 +107,53 @@ getTaskQueueStatus() // get task queue status
   }, []);    
 ```
 
+### - update()
+
+```ts
+  /**
+   * function update: update workspace setting
+   * @param: {WorkspaceSettingReq}: payload
+   * @returns WorkspaceIDRes
+   */
+  async update(payload: WorkspaceSettingReq): Promise<ResponseErrorNull>
+```
+
+> Successful response Schema
+
+```json
+    {
+      "error": "any"
+    }
+```
+
+- ### usage (tsx next)
+```tsx
+  import {createClient} from '@hexabase/hexabase-js';
+  const baseUrl = process.env.BASE_URL;
+  const user = JSON.parse(localStorage.getItem('user'));
+  const hexabase = await createClient({ url: baseUrl, token: user.token});
+  const [workspaceDetail, setWorkspaceDetail] = useState({} as WorkspacesRes);
+  const [workspaceUpdate, setWorkspaceUpdate] = useState({} as WorkspaceUpdate);
+  useEffect(() =>
+  {
+    hexabase.workspaces.getDetail().then(resp => setWorkspaceDetail(resp.workspace));
+    return;
+  }, []);
+
+  useEffect(() =>
+  {
+    hexabase.workspaces.update(createWsInput).then(resp => setWorkspaceUpdate(workspaceDetail));
+    return;
+  }, [workspaceDetail]);    
+```
+
 ### - setCurrent()
 
 ```ts
   /**
-   * set the current user workspace by workspace_id
+   * set the current workspace by workspace_id
    * @param  {SetWsInput} SetWsInput: include workspace_id
-   * @returns Promise
+   * @returns ModelRes
    */
   public async setCurrent(setCurrentWsPl: SetWsInput): Promise<ModelRes>
 ```
@@ -145,7 +180,7 @@ getTaskQueueStatus() // get task queue status
     }
     const hexabase = await createClient({ url: baseUrl, token: user.token})
 
-    const [workspaceCurrent, setWorkspaceCurrent] = useState([] as WorkspacesRes[]);
+    const [workspaceCurrent, setWorkspaceCurrent] = useState({} as WorkspacesRes{});
 
     useEffect(() =>
     {
@@ -163,7 +198,8 @@ getTaskQueueStatus() // get task queue status
 
 ```ts
   /**
-   * get workspaces id current
+   * get the current workspace by workspace_id
+   * @param  {getWsInput} getWsInput: include workspace_id
    * @returns WorkspaceCurrentRes
    */
   public async getCurrent(): Promise<WorkspaceCurrentRes>
@@ -173,8 +209,185 @@ getTaskQueueStatus() // get task queue status
 
 ```json
   {
-    "wsCurrent": { 
-      "workspace_id": "632ad81082bd898623884d2b" 
+    "wsCurrent": {
+      "workspace_id": "string"
+    },
+    "error": undefined,
+  }
+```
+
+
+- ### usage (tsx next)
+```tsx
+    import {createClient} from '@hexabase/hexabase-js';
+    const baseUrl = process.env.BASE_URL;
+    const user = JSON.parse(localStorage.getItem('user'));
+    const hexabase = await createClient({ url: baseUrl, token: user.token})
+    const [workspaceCurrent, setWorkspaceCurrent] = useState({} as WorkspacesCurrentRes{});
+
+    useEffect(() =>
+    {
+      hexabase.workspaces.getCurrent().then(resp => { setWorkspaceCurrent(resp.wsCurrent) });
+      return;
+    }, []);    
+```
+
+### - getDetail()
+
+```ts
+  /**
+   * get workspaces id current
+   * @returns WorkspaceCurrentRes
+   */
+  public async getDetail(): Promise<WorkspaceCurrentRes>
+```
+
+> Successful response schema
+
+```json
+  {
+    "workspace": { 
+        "workspace": {
+        "id": "string",
+        "w_id": "string",
+        "plan_id": "string",
+        "plan_name": "string",
+        "ws_admin": [
+          "string"
+        ],
+        "ws_admin_users": [
+          {
+            "user_id": "string",
+            "email": "string",
+            "user_name": "string",
+            "access_key": "string"
+          }
+        ],
+        "user_id": "string",
+        "name": "string",
+        "ws_usage": {
+          "users": "number",
+          "users_limit": "number",
+          "storage": "number",
+          "storage_limit": "number",
+          "datastores": "number",
+          "datastores_limit": "number",
+          "items": "number",
+          "items_limit": "number"
+        },
+        "languages": [
+          {
+            "lang_cd": "string",
+            "use": "boolean",
+            "default": "boolean"
+          },
+          {
+            "lang_cd": "string",
+            "use": "boolean",
+            "default": "boolean"
+          }
+        ],
+        "pwd_policy": {
+          "expired_day": "number",
+          "lockout_count": "number",
+          "lockout_time": "number",
+          "min_length": "number",
+          "pattern_check_type": "number",
+          "same_limit": "number",
+          "use_expired_day": "boolean",
+          "use_lockout_count": "boolean",
+          "use_lockout_time": "boolean",
+          "use_min_length": "boolean",
+          "use_pattern_check": "boolean",
+          "use_same_limit": "boolean",
+          "use_language_en": "boolean",
+          "use_language_ja": "boolean"
+        },
+        "user_sessions": {
+          "session_timeout_sec": "number",
+          "use": "boolean",
+          "default": "boolean"
+        },
+        "ws_functions": {
+          "ws_settings": {
+            "disable_change_name": "boolean",
+            "disable_change_logo": "boolean",
+            "disable_manage_admins": "boolean",
+            "disable_archive": "boolean",
+            "disable_password_policy": "boolean",
+            "disable_global_search": "boolean"
+          },
+          "group_settings": {
+            "disable_new_group": "boolean",
+            "disable_group_import": "boolean",
+            "disable_user_import": "boolean",
+            "disable_group_roles": "boolean"
+          },
+          "developer_functions": {
+            "disable_developer_mode": "boolean",
+            "disable_beta": "boolean",
+            "disable_generate_token": "boolean",
+            "show_access_keys": "number"
+          },
+          "task_queue": {
+            "show_task_list": "number"
+          },
+          "new_workspaces": {
+            "new_workspace": "number"
+          }
+        },
+        "app_functions": {
+          "app_settings": {
+            "disable_change_name": "boolean",
+            "disable_role_settings": "boolean",
+            "disable_left_menu_extension": "boolean",
+            "disable_program_extension": "boolean",
+            "disable_delete_application": "boolean",
+            "enable_action_validation": "boolean",
+            "enable_field_values_validation": "boolean"
+          },
+          "app_templates": {
+            "disable_new_application": "boolean",
+            "disable_save_templates": "boolean"
+          },
+          "dashboards": {
+            "disable_edit_dashboards": "boolean",
+            "disable_edit_dash_items": "boolean"
+          },
+          "data_reports": {
+            "disable_edit_reports": "boolean",
+            "disable_save_reports": "boolean",
+            "disable_csv_downloads": "boolean"
+          },
+          "datastores": {
+            "disable_db_settings": "boolean",
+            "disable_grid_view": "boolean",
+            "disable_borad_view": "boolean",
+            "disable_status_update": "boolean",
+            "disable_query": "boolean"
+          },
+          "csv_import": {
+            "disable_csv_update": "boolean",
+            "disable_replace_import": "boolean",
+            "use_qr_download": "boolean"
+          },
+          "item_view": {
+            "disable_pagination": "boolean",
+            "disable_change_layouts": "boolean",
+            "disable_edit_statuses": "boolean",
+            "disable_edit_fields": "boolean",
+            "disable_edit_actions": "boolean",
+            "hide_link_items": "boolean",
+            "disable_pin_items": "boolean"
+          }
+        },
+        "redirect": {
+          "is_apply_redirect_url_for_disabled_users": "boolean",
+          "redirect_url": ""
+        },
+        "created_at": "2022-10-05T04:29:52.835Z",
+        "updated_at": "2022-10-05T04:29:52.835Z"
+      }
     },
     "error": undefined,
   }
@@ -186,12 +399,12 @@ getTaskQueueStatus() // get task queue status
 
     const baseUrl = process.env.BASE_URL;
     const user = JSON.parse(localStorage.getItem('user'));
-    const hexabase = await createClient({ url: baseUrl, token: user.token})
-    const [workspaceCurrent, setWorkspaceCurrent] = useState([] as WorkspacesRes[]);
+    const hexabase = await createClient({ url: baseUrl, token: user.token});
+    const [workspaceDetail, setWorkspaceDetail] = useState({} as WorkspacesRes);
 
     useEffect(() =>
     {
-      hexabase.workspaces.getCurrent().then(resp => setWorkspaces(resp.wsCurrent));
+      hexabase.workspaces.getDetail().then(resp => setWorkspaceDetail(resp.workspace));
       return;
     }, []);
 ```
@@ -212,18 +425,18 @@ getTaskQueueStatus() // get task queue status
 ```json
     {
       "wsPasswordPolicy": {
-        "expired_day": 30,
-        "lockout_count": 5,
-        "lockout_time": 5,
-        "min_length": 6,
-        "pattern_check_type": 0,
-        "same_limit": 2,
-        "use_expired_day": false,
-        "use_lockout_count": false,
-        "use_lockout_time": false,
-        "use_min_length": false,
-        "use_pattern_check": false,
-        "use_same_limit": false
+        "expired_day": "number",
+        "lockout_count": "number",
+        "lockout_time": "number",
+        "min_length": "number",
+        "pattern_check_type": "number",
+        "same_limit": "number",
+        "use_expired_day": "boolean",
+        "use_lockout_count": "boolean",
+        "use_lockout_time": "boolean",
+        "use_min_length": "boolean",
+        "use_pattern_check": "boolean",
+        "use_same_limit": "boolean"
       },
       "error": undefined
     }
@@ -237,7 +450,7 @@ getTaskQueueStatus() // get task queue status
     const workspaceId = process.env.WORKSPACEID;
     const user = JSON.parse(localStorage.getItem('user'));
     const hexabase = await createClient({ url: baseUrl, token: user.token})
-    const [workspaceCurrent, setWorkspaceCurrent] = useState([] as WorkspacesRes[]);
+    const [workspaceCurrent, setWorkspaceCurrent] = useState({} as WorkspacesRes);
 
     useEffect(() =>
     {
@@ -262,18 +475,18 @@ getTaskQueueStatus() // get task queue status
 ```json
      {
       "wsFunctionality": {
-        "w_id": "624ac2f3cbb42c82793c10e6",
+        "w_id": "string",
         "ws_functions": {
-          "use_global_search": true,
-          "use_beta": false,
-          "use_password_policy": true,
-          "use_create_workspace": 2
+          "use_global_search": "boolean",
+          "use_beta": "boolean",
+          "use_password_policy": "boolean",
+          "use_create_workspace": "number"
         },
         "app_functions": {
-          "use_dashboards": true,
-          "use_queries": true,
-          "use_create_application": true,
-          "use_reports": true
+          "use_dashboards": "boolean",
+          "use_queries": "boolean",
+          "use_create_application": "boolean",
+          "use_reports": "boolean"
         }
       },
       "error": undefined
@@ -288,7 +501,7 @@ getTaskQueueStatus() // get task queue status
     const workspaceId = process.env.WORKSPACEID;
     const user = JSON.parse(localStorage.getItem('user'));
     const hexabase = await createClient({ url: baseUrl, token: user.token})
-    const [workspaceCurrent, setWorkspaceCurrent] = useState([] as WorkspacesRes[]);
+    const [workspaceCurrent, setWorkspaceCurrent] = useState({} as WorkspacesRes);
 
     useEffect(() =>
     {
@@ -313,16 +526,16 @@ getTaskQueueStatus() // get task queue status
 ```json
      {
       "wsUsage": {
-        "w_id": "632ae4bf0aaae33f4971612b",
+        "w_id": "string",
         "usage": {
-          "users": 1,
-          "users_limit": 3,
-          "storage": 0,
-          "storage_limit": 50,
-          "items": 0,
-          "items_limit": 0,
-          "datastores_limit": 5,
-          "datastores": 0
+          "users": "number",
+          "users_limit": "number",
+          "storage": "number",
+          "storage_limit": "number",
+          "items": "number",
+          "items_limit": "number",
+          "datastores_limit": "number",
+          "datastores": "number"
         }
       },
       "error": undefined
@@ -337,11 +550,11 @@ getTaskQueueStatus() // get task queue status
     const workspaceId = process.env.WORKSPACEID;
     const user = JSON.parse(localStorage.getItem('user'));
     const hexabase = await createClient({ url: baseUrl, token: user.token})
-    const [workspaceCurrent, setWorkspaceCurrent] = useState([] as WorkspacesRes[]);
+    const [wsUsage, setWsUsage] = useState({} as WsUsage);
 
     useEffect(() =>
     {
-      hexabase.workspaces.getPasswordPolicy(workspaceId).then(resp => setWorkspaces(resp.wsUsage));
+      hexabase.workspaces.getPasswordPolicy(workspaceId).then(resp => setWsUsage(resp.wsUsage));
       return;
     }, []);
 ```
@@ -362,15 +575,23 @@ getTaskQueueStatus() // get task queue status
 ```json
     {
       "wsGroupChildren": {
-        "error": "",
+        "error": "string",
         "group": {
-          "index": 0,
-          "name": "WORKSPACE.DEFAULT_GROUP_NAME",
-          "group_id": "Grp-jhiDUaJm",
-          "g_id": "632ae5ec82bd898623884d5a"
+          "index": "number",
+          "name": "string",
+          "group_id": "string",
+          "g_id": "string"
         },
-        "children": [],
-        "count": 0
+        "children": [
+          {
+            "g_id": "string",
+            "group_id": "string",
+            "name": "string",
+            "index": "number",
+          }
+          ...
+        ],
+        "count": "number"
       },
       "error": undefined
     }
@@ -384,11 +605,11 @@ getTaskQueueStatus() // get task queue status
     const workspaceId = process.env.WORKSPACEID;
     const user = JSON.parse(localStorage.getItem('user'));
     const hexabase = await createClient({ url: baseUrl, token: user.token})
-    const [workspaceCurrent, setWorkspaceCurrent] = useState([] as WorkspacesRes[]);
+    const [wsGroupChildren, setWsGroupChildren] = useState({} as WsWsGroupChildren{});
 
     useEffect(() =>
     {
-      hexabase.workspaces.getGroupChildren(workspaceId).then(resp => setWorkspaces(resp.wsGroupChildren));
+      hexabase.workspaces.getGroupChildren(workspaceId).then(resp => setWsGroupChildren(resp.wsGroupChildren));
       return;
     }, []);
 ```
@@ -408,7 +629,7 @@ getTaskQueueStatus() // get task queue status
 
 ```json
     { 
-      "taskQueueList": {}, 
+      "taskQueueList": "any", 
       "error": undefined 
     }
 ```
@@ -420,11 +641,11 @@ getTaskQueueStatus() // get task queue status
     const baseUrl = process.env.BASE_URL;
     const user = JSON.parse(localStorage.getItem('user'));
     const hexabase = await createClient({ url: baseUrl, token: user.token})
-    const [workspaceCurrent, setWorkspaceCurrent] = useState([] as WorkspacesRes[]);
+    const [wsTaskQueueList, setTaskQueueList] = useState({} as WsTaskQueueList);
 
     useEffect(() =>
     {
-      hexabase.workspaces.getTaskQueueList().then(resp => setWorkspaces(resp.taskQueueList));
+      hexabase.workspaces.getTaskQueueList().then(resp => setTaskQueueList(resp.taskQueueList));
       return;
     }, []);
 ```
@@ -471,11 +692,52 @@ getTaskQueueStatus() // get task queue status
     const taskId = process.env.TASKID;
     const user = JSON.parse(localStorage.getItem('user'));
     const hexabase = await createClient({ url: baseUrl, token: user.token})
-    const [workspaceCurrent, setWorkspaceCurrent] = useState([] as WorkspacesRes[]);
+    const [wsTaskQueueStatus, setTaskQueueStatus] = useState({} as WsTaskQueueStatus{});
 
     useEffect(() =>
     {
-      hexabase.workspaces.getTaskQueueStatus(taskId, workspaceId).then(resp => setWorkspaces(resp.taskQueueStatus));
+      hexabase.workspaces.getTaskQueueStatus(taskId, workspaceId).then(resp => setTaskQueueStatus(resp.taskQueueStatus));
+      return;
+    }, []);
+```
+
+### - archive()
+
+```ts
+  /**
+   * function archive: archive workspace
+   * @param  {ArchiveWorkspace} payload is required
+   * @returns ResponseErrorNull
+   */
+  public async archive(payload: ArchiveWorkspace): Promise<ResponseErrorNull>
+```
+
+> Successful response schema
+
+```json
+    { 
+      "error": "any" 
+    }
+```
+
+- ### usage (tsx next)
+```tsx
+    import {createClient} from '@hexabase/hexabase-js';
+
+    const baseUrl = process.env.BASE_URL;
+    const user = JSON.parse(localStorage.getItem('user'));
+    const hexabase = await createClient({ url: baseUrl, token: user.token})
+    const [error, setError] = useState([] as WsError[]);
+    const archiveWorkspaceInput: ArchiveWorkspace = {
+      payload: {
+        w_id: "w_id_001",
+        archived: true,
+      }
+    };
+
+    useEffect(() =>
+    {
+      hexabase.workspaces.archive(payload).then(resp => setError(payload.w_id));
       return;
     }, []);
 ```

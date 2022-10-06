@@ -8,77 +8,25 @@ Project further lists down all essential groups of data stores available for use
 
 In `Project` will have functions:
 ```bash
-get() // get info project
+get() // get Project and datastores list
 create() // create a Project
-getProjectsAndDatastores() // get Project and datastores list
+getDetail() // get info project
 updateProjectTheme() //  update Project theme
 updateProjectName() //  update Project name
-delete() //  delete Project 
+delete() //  delete Project
 ```
 
 ### - get()
-
-```ts
-  /**
-   * function get: get info project
-   * @params {string} projectId
-   * @returns ReportDataRes
-   */
-  public async get(projectId: string): Promise<ProjectInfoRes>
-```
-
-> Successful response Schema
-
-```json
-  {
-    "project" : {
-        "display_id":"APP-F0q0adpa",
-        "display_order":0,
-        "name":"CREATE_PROJECT.DEFAULT_PJ_NAME",
-        "p_id":"624ac2f3cbb42c82793c10e9",
-        "template_id":"",
-        "w_id":null,
-    },
-    "error": undefined
-  }
-```
-
-- ### usage (tsx next)
-```ts
-  import {createClient} from '@hexabase/hexabase-js';
-    const baseUrl = process.env.BASE_URL;
-    const user = JSON.parse(localStorage.getItem('user'));
-    const [project, setProject] = useState({} as [ReportListItem]);
-
-    const hexabase = await createClient({ url: baseUrl, token: user.token});
-
-    async function getInfoProject(projectId: string) {
-      const {project, error} = await application.get(projectId);
-      return project;
-    }
-
-    useEffect(() =>
-    {
-      const projectId = "1234567890";
-      const project = getReportsProject(projectId);
-      if(project) {
-        setReportsProject(reports)
-      }
-      return;
-    }, []); 
-```
-
-### - getProjectsAndDatastores()
 
 > get all user workspace Project and datastores list
 
 ```ts
   /**
-   * get workspace Project and datastores list
+   * get Project and datastores list
    * @param  {string} workspaceId
    * @returns Promise
    */
-  public async getProjectsAndDatastores(workspaceId: string): Promise<AppAndDsRes>
+  public async get(workspaceId: string): Promise<AppAndDsRes>
 ```
 
 > Successful response Schema
@@ -124,6 +72,59 @@ delete() //  delete Project
       const appAndDs = getAppAndDs(workspaceId);
       if (appAndDs && appAndDs.length > 0) {
         setAppDs(appAndDs);
+      }
+      return;
+    }, []); 
+```
+
+
+### - getDetail()
+
+```ts
+  /**
+   * function getDetail: get info project
+   * @params {string} projectId
+   * @returns ReportDataRes
+   */
+  public async getDetail(projectId: string): Promise<ProjectInfoRes>
+```
+
+> Successful response Schema
+
+```json
+  {
+    "project" : {
+        "display_id": "string",
+        "display_order": 0,
+        "name": "string",
+        "p_id": "string",
+        "template_id": "string",
+        "w_id": "string",
+    },
+    "error": undefined
+  }
+```
+
+- ### usage (tsx next)
+```ts
+  import {createClient} from '@hexabase/hexabase-js';
+    const baseUrl = process.env.BASE_URL;
+    const user = JSON.parse(localStorage.getItem('user'));
+    const [project, setProject] = useState({} as [ReportListItem]);
+
+    const hexabase = await createClient({ url: baseUrl, token: user.token});
+
+    async function getInfoProject(projectId: string) {
+      const {project, error} = await application.get(projectId);
+      return project;
+    }
+
+    useEffect(() =>
+    {
+      const projectId = "1234567890";
+      const project = getReportsProject(projectId);
+      if(project) {
+        setReportsProject(reports)
       }
       return;
     }, []); 
