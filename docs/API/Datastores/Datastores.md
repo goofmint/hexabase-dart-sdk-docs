@@ -7,10 +7,65 @@ Datastore is a place to store many actions, managements, relations for the logic
 
 In `Datastore` will have functions:
 ```bash
+create() // create datastore
+update() // update datastore
+delete() // delete datastore
 getActions() // get actions in datastore
 getStatuses() // get statuses in datastore
 getField() // get field setting in datastore
 getAction() //get field action setting in datastore
+```
+
+### - create()
+
+```ts
+ /**
+   * function create: create datastore
+   * @params {CreateDatastoreFromSeedReq} payload are requirement
+   * @returns CreateDatastoreFromSeedRes
+   */
+  public async create(payload: CreateDatastoreFromSeedReq): Promise<CreateDatastoreFromSeedRes>
+```
+
+> Successful response Schema
+
+```json
+  {
+    "datastoreId": "string",
+    "error": undefined
+  }
+```
+
+- ### usage (tsx next)
+```ts
+  import {createClient} from '@hexabase/hexabase-js';
+  const baseUrl = process.env.BASE_URL;
+  const user = JSON.parse(localStorage.getItem('user'));
+  const hexabase = await createClient({ url: baseUrl, token: user.token});
+  const [datastoreId, setDatastoreId] = useState({} as CreateDatastoreFromSeedRes);
+
+  async function create(payload) {
+    const { datastoreId } = await datastore.create(payload);
+    return datastoreId;
+  }
+
+  useEffect(() =>
+  {
+    const payload: CreateDatastoreFromSeedReq = {
+      payload: {
+        lang_cd: 'en',
+        project_id: "project_id",
+        template_name: "template_name",
+        workspace_id: "workspace_id",
+        user_id: "user_id",
+      },
+    };
+    const data = create(payload);
+    if (data) {
+      setDatastoreId(data)
+    }
+    return;
+  }, []); 
 ```
 
 ### - getField()
@@ -76,7 +131,7 @@ getAction() //get field action setting in datastore
   const hexabase = await createClient({ url: baseUrl, token: user.token});
   const [field, setField] = useState({} as DsFieldSettings);
 
-  async function getFieldSetting(dsId) {
+  async function getFieldSetting(fieldId, datastoreId) {
     const {dsField, error} = await hexabase.datastores.getField(fieldId, datastoreId);
     return dsField;
   }
@@ -272,6 +327,109 @@ getAction() //get field action setting in datastore
     const dsAction = getAction(datastoreId);
     if (dsAction) {
       setDsStatus(dsAction)
+    }
+    return;
+  }, []); 
+```
+
+### - updateDatastoreSetting()
+
+```ts
+ /**
+   * function updateDatastoreSetting: update datastore
+   * @params {DatastoreUpdateSetting} payload are requirement
+   * @returns ModelRes
+   */
+  public async updateDatastoreSetting(payload: DatastoreUpdateSetting): Promise<ModelRes>
+```
+
+> Successful response Schema
+
+```json
+  {
+    "data": {
+      "success": "boolean",
+      "data": "string",
+    },
+    "error": undefined,
+  }
+```
+
+- ### usage (tsx next)
+```ts
+  import {createClient} from '@hexabase/hexabase-js';
+  const baseUrl = process.env.BASE_URL;
+  const user = JSON.parse(localStorage.getItem('user'));
+  const hexabase = await createClient({ url: baseUrl, token: user.token});
+  const [modelRes, setModelRes] = useState({} as ModelRes);
+
+  async function update(payload) {
+    const { data, error } = await datastore.updateDatastoreSetting(payload);
+    return data;
+  }
+
+  useEffect(() =>
+  {
+    const payload: DatastoreUpdateSetting = {
+      payload: {
+        datastore_id: "datastore_id",
+        display_id: "dsId_update_001",
+        name: {
+          en: "EN name update",
+          ja: "JA name update"
+        },
+      }
+    };
+    const data = update(payload);
+    if (data) {
+      setModelRes(data)
+    }
+    return;
+  }, []); 
+```
+
+### - deleteDatastore()
+
+```ts
+ /**
+   * function deleteDatastore: delete datastore
+   * @params {DatastoreUpdateSetting} payload are requirement
+   * @returns ModelRes
+   */
+  public async deleteDatastore(datastoreId: string): Promise<ModelRes>
+```
+
+> Successful response Schema
+
+```json
+  {
+    "data": {
+      "success": "boolean",
+      "data": "string",
+    },
+    "error": undefined,
+  }
+```
+
+- ### usage (tsx next)
+```ts
+  import {createClient} from '@hexabase/hexabase-js';
+  const baseUrl = process.env.BASE_URL;
+  const user = JSON.parse(localStorage.getItem('user'));
+  const hexabase = await createClient({ url: baseUrl, token: user.token});
+  const [modelRes, setModelRes] = useState({} as ModelRes);
+
+  async function delete(payload) {
+    const { data, error } = await datastore.deleteDatastore(payload);
+    return data;
+  }
+
+  useEffect(() =>
+  {
+    const datastoreId = "datastoreId";
+    const data = delete(datastoreId);
+    if (data) {
+      setModelRes(data)
     }
     return;
   }, []); 

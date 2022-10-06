@@ -8,7 +8,7 @@ Project further lists down all essential groups of data stores available for use
 
 In `Project` will have functions:
 ```bash
-get() // get Project and datastores list
+getProjectsAndDatastores() // get Project and datastores list
 create() // create a Project
 getDetail() // get info project
 updateProjectTheme() //  update Project theme
@@ -16,7 +16,7 @@ updateProjectName() //  update Project name
 delete() //  delete Project
 ```
 
-### - get()
+### - getProjectsAndDatastores()
 
 > get all user workspace Project and datastores list
 
@@ -26,7 +26,7 @@ delete() //  delete Project
    * @param  {string} workspaceId
    * @returns Promise
    */
-  public async get(workspaceId: string): Promise<AppAndDsRes>
+  public async getProjectsAndDatastores(workspaceId: string): Promise<AppAndDsRes>
 ```
 
 > Successful response Schema
