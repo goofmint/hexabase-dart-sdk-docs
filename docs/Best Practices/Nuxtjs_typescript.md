@@ -153,6 +153,8 @@ async function login(baseUrl: string, email: string, password: string) {
 }
 ```
 
+![An image from the static](/img/screenshot-login.png)
+
 For other services, such as `workspace.service.ts`
 
 ```tsx
@@ -180,3 +182,13 @@ async function getWorkspaces() {
   return workspaces;
 }
 ```
+
+##### workspace
+
+![An image from the static](/img/screenshot-workspace.png)
+
+#### then you can create site to display datastores of each project
+
+##### datastores
+
+![An image from the static](/img/screenshot-datastore.png)
