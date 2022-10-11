@@ -7,13 +7,190 @@ Datastore is a place to store many actions, managements, relations for the logic
 
 In `Datastore` will have functions:
 ```bash
+get() // get all datastore
+getDetai() // get detail datastore
 create() // create datastore
-update() // update datastore
-delete() // delete datastore
+updateDatastoreSetting() // update datastore
+deleteDatastore() // delete datastore
 getActions() // get actions in datastore
 getStatuses() // get statuses in datastore
 getField() // get field setting in datastore
 getAction() //get field action setting in datastore
+```
+
+### - get()
+
+```ts
+ /**
+   * function get: get datastore
+   * @params {string} projectId are requirement
+   * @returns DatastoreRes
+   */
+  public async get(projectId: string): Promise<DatastoreRes>
+```
+
+> Successful response Schema
+
+```json
+  {
+    "datastores": [
+      {
+          "d_id": "string",
+          "p_id": "string",
+          "w_id": "string",
+          "ws_name": "string",
+          "name": "string",
+          "uploading": "boolean",
+          "imported": "boolean",
+          "no_status": "boolean",
+          "show_in_menu": "boolean",
+          "deleted": "boolean",
+          "display_order": "number",
+          "display_id": "string",
+          "show_only_dev_mode": "boolean",
+          "use_qr_download": "boolean",
+          "use_csv_update": "boolean",
+          "use_external_sync": "boolean",
+          "use_replace_upload": "boolean",
+          "unread": "number",
+          "invisible": "boolean",
+          "use_grid_view": "boolean",
+          "use_grid_view_by_default": "boolean",
+          "use_board_view": "boolean",
+          "is_external_service": "boolean",
+          "data_source": "string",
+          "external_service_data": "any",
+          "show_display_id_to_list": "boolean",
+          "show_info_to_list": "boolean",
+      },
+      ...
+    ],
+    "error": undefined
+  }
+```
+
+- ### usage (tsx next)
+```ts
+  import {createClient} from '@hexabase/hexabase-js',
+  const baseUrl = process.env.BASE_URL;
+  const user = JSON.parse(localStorage.getItem('user'));
+  const hexabase = await createClient({ url: baseUrl, token: user.token});
+  const [datastores, setDatastores] = useState([] as DatastoreRes[]);
+  const projectID = "project_id_001";
+
+  async function get(payload) {
+    const { datastores, error } = await datastore.get(projectID);
+    return datastores;
+  }
+
+  useEffect(() =>
+  {
+    const data = get(projectID);
+    if (data) {
+      setDatastores(data);
+    }
+    return;
+  }, []); 
+```
+
+### - getDetail()
+
+```ts
+ /**
+   * function getDetail: getDetail datastore
+   * @params {string} datastoreId are requirement
+   * @returns DatastoreSettingRes
+   */
+  public async getDetail(datastoreId: string): Promise<DatastoreSettingRes>
+```
+
+> Successful response Schema
+
+```json
+  {
+    "datastoreSetting": {
+        "id": "string",
+        "names": "any",
+        "roles": {
+            "id": "string",
+            "display_id": "string",
+            "name": "string",
+        },
+        "display_id": "string",
+        "fields": [
+          {
+            "id": "string",
+            "display_name": "string",
+            "display_id": "string",
+            "names": "any",
+            "data_type": "string",
+            "search": "boolean",
+            "show_list": "boolean",
+            "as_title": "boolean",
+            "status": "boolean",
+            "field_index": "number",
+            "title_order": "number",
+            "full_text": "boolean",
+            "unique": "boolean",
+            "min_value": "string",
+            "max_value": "string",
+            "options": [
+              {
+                "_key": "string",
+                "o_id": "string",
+                "fieldID": "string",
+              },
+              ...
+            ],
+          },
+          ...
+        ],
+        "field_layout": [
+          {
+            "id": "string",
+            "display_id": "string",
+            "col": "number",
+            "row": "number",
+            "size_x": "number",
+            "size_y": "number",
+          },
+          ...
+        ],
+        "statuses": [
+          {
+            "id": "string",
+            "display_id": "string",
+            "names": "any",
+          },
+          ...
+        ],
+    },
+    "error": undefined
+  }
+```
+
+- ### usage (tsx next)
+```ts
+  import {createClient} from '@hexabase/hexabase-js';
+  const baseUrl = process.env.BASE_URL;
+  const user = JSON.parse(localStorage.getItem('user'));
+  const hexabase = await createClient({ url: baseUrl, token: user.token});
+  const [datastoreSetting, setDatastoreSetting] = useState({} as DatastoreSettingRes);
+  const datastoreId = 'datastoreId_001';
+
+  async function getDetail(payload) {
+    const { datastoreSetting, error } = await datastore.getDetail(newDatastoreId);
+    return datastoreSetting;
+  }
+
+  useEffect(() =>
+  {
+    const data = getDetail(datastoreId);
+    if (data) {
+      setDatastoreSetting(data);
+    }
+    return;
+  }, []); 
 ```
 
 ### - create()
@@ -62,7 +239,7 @@ getAction() //get field action setting in datastore
     };
     const data = create(payload);
     if (data) {
-      setDatastoreId(data)
+      setDatastoreId(data);
     }
     return;
   }, []); 
@@ -186,7 +363,7 @@ getAction() //get field action setting in datastore
   const user = JSON.parse(localStorage.getItem('user'));
   const datastoreId = '12345678';
   const hexabase = await createClient({ url: baseUrl, token: user.token});
-  const [dsAction, setDsAction] = useState({} as [DsAction]);
+  const [dsAction, setDsAction] = useState([] as [DsAction]);
 
   async function getActions(dsId) {
     const {dsActions, error} = await hexabase.datastores.getActions(dsId);
@@ -242,7 +419,7 @@ getAction() //get field action setting in datastore
   import {createClient} from '@hexabase/hexabase-js';
   const baseUrl = process.env.BASE_URL;
   const user = JSON.parse(localStorage.getItem('user'));
-  const [dsStatus, setDsStatus] = useState({} as [DsStatus]);
+  const [dsStatus, setDsStatus] = useState([] as [DsStatus]);
   const datastoreId = '1234567890';
   const hexabase = await createClient({ url: baseUrl, token: user.token});
 
@@ -313,7 +490,7 @@ getAction() //get field action setting in datastore
   import {createClient} from '@hexabase/hexabase-js';
   const baseUrl = process.env.BASE_URL;
   const user = JSON.parse(localStorage.getItem('user'));
-  const [dsAction, setDsAction] = useState({} as [DsAction]);
+  const [dsAction, setDsAction] = useState([] as [DsAction]);
   const datastoreId = '1234567890';
   const hexabase = await createClient({ url: baseUrl, token: user.token});
 
