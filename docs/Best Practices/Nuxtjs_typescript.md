@@ -302,7 +302,13 @@ _`/workspace/workspace_id/project/project_id/datastore/datastore_id`_
 
 Click to any item to view the detail. The initial item detail automatically taken from the first elemtent of the table
 
-![An image from the static](/img/screenshot-item-viewDetail.png)
+![view item detail](/img/screenshot-item-viewDetail.png)
+
+![create item](/img/screenshot-itemViewMedia.png)
+
+[in progress]
+
+Download media of item
 
 You can delete an item
 
@@ -327,7 +333,7 @@ async function deleteItem(
 ```
 
 or add an item
-![An image from the static](/img/screenshot-createItem.png)
+![create item](/img/screenshot-createItem.png)
 
 ```tsx
 async function createItem(
@@ -342,5 +348,26 @@ async function createItem(
     newItemPl
   );
   return itemNew;
+}
+```
+
+to edit item
+![create item](/img/screenshot-updateItem.png)
+
+```tsx
+async function updateItem(
+  projectId: string,
+  datastoreId: string,
+  itemId: string,
+  itemActionParameters: ItemActionParameters
+) {
+  const hexabase = await initHxbClient();
+  const { data, error } = await hexabase.items.update(
+    projectId,
+    datastoreId,
+    itemId,
+    itemActionParameters
+  );
+  return data;
 }
 ```
