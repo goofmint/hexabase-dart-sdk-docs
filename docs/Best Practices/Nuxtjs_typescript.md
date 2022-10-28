@@ -351,6 +351,38 @@ async function createItem(
 }
 ```
 
+```tsx
+async function createItem(
+  projectId: string,
+  datastoreId: string,
+  newItemPl: CreateNewItemPl
+) {
+  const hexabase = await initHxbClient();
+  const { itemNew, error } = await hexabase.items.create(
+    projectId,
+    datastoreId,
+    newItemPl
+  );
+  return itemNew;
+}
+```
+
+`status` and `user_id` options should taken as follows:
+
+```tsx
+//get status list
+
+async function getStatuses(datastoreId: string) {
+  const hexabase = await initHxbClient();
+  const { dsStatuses, error } = await hexabase.datastores.getStatuses(
+    datastoreId
+  );
+  return dsStatuses;
+}
+```
+
+`get user_id list` has not available, so you now just can take an user_id from items data
+
 to edit item
 ![create item](/img/screenshot-updateItem.png)
 
@@ -370,4 +402,69 @@ async function updateItem(
   );
   return data;
 }
+```
+
+Beside to those inputs, other config in payload should be done logically
+
+As in upload file service, it should be attached with this payload type
+
+```tsx
+const payload = {
+  contentTypeFile: contentTypeFile,
+  filename: nameFile,
+  filepath: `${datastoreId}/${itemId}/${fieldId}/${nameFile}`,
+  d_id: datastoreId,
+  p_id: projectId,
+  item_id: itemId,
+  display_order: 0,
+  field_id: fieldId,
+  content: content, //result as base64 format
+};
+```
+
+```tsx
+{
+  datastoreId: string,
+  itemId: string,
+  projectId: string,
+  ItemActionParameters {
+    action_id?: string;
+    rev_no?: number;
+    use_display_id?: boolean;
+    is_notify_to_sender?: boolean;
+    ensure_transaction?: boolean;
+    exec_children_post_procs?: boolean;
+    history?: ItemHistory;
+    datastore_id?: string;
+    comment?: string;
+    changes?: any;
+    item?: any;
+    groups_to_publish?: any;
+    is_force_update?: boolean;
+    access_key_updates?: FieldAccessKeyUpdates;
+    return_item_result?: boolean;
+    return_actionscript_logs?: boolean;
+    disable_linker?: boolean;
+    as_params?: any;
+    related_ds_items?: any;
+  }
+}
+```
+
+where `tabIndex` and `idx` will be calculated as follows
+
+```tsx
+tabindex = (fieldIdLayout.row + 1) * 10 + fieldIdLayout.col;
+```
+
+fieldIdLayout is field settings of chosen filed, `find` from fieldLayout list, taken from getFields api (datastore service)
+
+```tsx
+const fieldSettings = await datastoreService.getDetail(this.ds_id);
+const idx = fieldSettings.fields.find(
+  (s: any) => s.id === field.field_id
+).field_index;
+
+// fieldSettings taken from api getDetail of datastore services.
+// field is input specific element of one item
 ```
