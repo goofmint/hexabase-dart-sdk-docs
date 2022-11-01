@@ -19,7 +19,7 @@ getUsage() // get workspace usage
 getGroupChildren() // get workspace children in group
 getTaskQueueList() // get queue list
 getTaskQueueStatus() // get task queue status
-
+archive() // archive workspace
 ```
 
 ### - get()

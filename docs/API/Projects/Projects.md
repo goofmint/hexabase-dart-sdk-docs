@@ -8,7 +8,8 @@ Project further lists down all essential groups of data stores available for use
 
 In `Project` will have functions:
 ```bash
-get() // get Project and datastores list
+get() // get Project list
+getProjectsAndDatastores() // get Project and datastores list
 create() // create a Project
 getDetail() // get info project
 updateProjectTheme() //  update Project theme
@@ -24,9 +25,65 @@ delete() //  delete Project
   /**
    * get Project and datastores list
    * @param  {string} workspaceId
+   * @returns ApplicationRes
+   */
+  public async get(workspaceId: string): Promise<ApplicationRes>
+```
+
+> Successful response Schema
+
+```json
+  {
+    "getApplications" : [
+      {
+        "application_id": "string",
+        "name": "string",
+        "display_id": "string",
+        "theme": "string",
+        "display_order": "number",
+      },
+      ...
+    ],
+  "error": undefined
+}
+```
+
+- ### usage (tsx next)
+```tsx
+    import {createClient} from '@hexabase/hexabase-js';
+    const baseUrl = process.env.BASE_URL;
+    const user = JSON.parse(localStorage.getItem('user'));
+    const hexabase = await createClient({ url: baseUrl, token: user.token});
+    const [apps, setApps] = useState([] as [ApplicationRes]);
+
+    async function getApps(wId) {
+      const {appAndDs, error} = await hexabase.applications.get(wId);
+      return appAndDs;
+    }
+
+    useEffect(() =>
+    {
+      const workspaceId = '12345678';
+      const apps = getApps(workspaceId);
+      if (apps && apps.length > 0) {
+        setApps(apps);
+      }
+      return;
+    }, []); 
+```
+
+
+### - getProjectsAndDatastores()
+
+> get all user workspace Project and datastores list
+
+```ts
+  /**
+   * get Project and datastores list
+   * @param  {string} workspaceId
    * @returns Promise
    */
-  public async get(workspaceId: string): Promise<AppAndDsRes>
+  public async getProjectsAndDatastores(workspaceId: string): Promise<AppAndDsRes>
 ```
 
 > Successful response Schema
