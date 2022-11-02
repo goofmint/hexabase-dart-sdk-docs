@@ -123,7 +123,7 @@ async function getAppAndDs(id) {
 }
 ```
 
-![An image from the static](/img/nextjs/workspaces-list.PNG)
+![An image from the static](/img/nextjs/workspaces-list.png)
 
 You can create a new _`workspace`_
 
