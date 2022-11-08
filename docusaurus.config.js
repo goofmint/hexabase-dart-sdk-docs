@@ -2,7 +2,7 @@ module.exports = {
   title: 'Hexabase SDK',
   tagline: 'Dart/Flutter SDK for Hexabase API',
   url: 'https://sdk-docs.hexabase.com',
-  baseUrl: '/hexabase-dart-sdk-docs',
+  baseUrl: '/hexabase-dart-sdk-docs/',
   onBrokenLinks: 'ignore',
   favicon: 'img/favicon.ico',
   organizationName: 'hexabase', // Usually your GitHub org/user name.
