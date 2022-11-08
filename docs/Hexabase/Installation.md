@@ -3,34 +3,24 @@ title: Installation
 sidebar_label: 'Installation'
 ---
 
+## Install @hexabase/hexabase-dart
 
-## Install @hexabase/hexabase-js
-
-`@hexabase/hexabase-js` is essentially npm package, you can install it by `npm`
+`@hexabase/hexabase-dart` is essentially pub.dev package, you can install it by `dart` or `flutter`.
 
 ```bash
-npm i @hexabase/hexabase-js
+# For Dart
+dart pub add hexabase
+
+# For flutter
+flutter pub add hexabase
 ```
 
 ## Requirements
 
-* [Nodejs](https://nodejs.org/en/) >= 16.14.1
-
+* [Dart](https://dart.dev/) >= 2.17
 * user credentials ***must obtain from hexabase***
 
-```json
-  #url require: https://xxxxx.xxx/xxx/
-  
-  #options_1
-  {
-    "email": "j.soliva@hexabase.com",
-    "password": "123456"
-  }
+- Option 1. email and password
+- Option 2. token
 
-  or
-
-  #options_2
-  {
-    "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.xxx"
-  }
-```
+You can get the token when you logged in to Hexabase with email and password.

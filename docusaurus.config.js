@@ -1,6 +1,6 @@
 module.exports = {
   title: 'Hexabase SDK',
-  tagline: 'Typescript SDK for Hexabase API',
+  tagline: 'Dart/Flutter SDK for Hexabase API',
   url: 'https://sdk-docs.hexabase.com',
   baseUrl: '/',
   onBrokenLinks: 'ignore',
@@ -8,6 +8,9 @@ module.exports = {
   organizationName: 'hexabase', // Usually your GitHub org/user name.
   projectName: 'hexabase-sdk-docs', // Usually your repo name.
   themeConfig: {
+    prism: {
+      additionalLanguages: ['dart'],
+    },
     zoom: {
       selector: ".markdown :not(em) > img",
       config: {
@@ -36,7 +39,7 @@ module.exports = {
           position: 'left',
         },
         {
-          href: 'https://github.com/hexabase/hexabase-js',
+          href: 'https://github.com/hexabase/hexabase-dart',
           label: 'GitHub',
           position: 'right',
         },
